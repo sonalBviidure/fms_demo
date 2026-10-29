@@ -25,10 +25,28 @@ export function getAuthHeaders() {
 }
 
 async function handleResponse(response) {
-  const data = await response.json();
+  const contentType = response.headers.get('content-type') || '';
+  let data = null;
+
+  if (contentType.includes('application/json')) {
+    try {
+      data = await response.json();
+    } catch {
+      data = null;
+    }
+  } else {
+    const text = await response.text();
+    if (!response.ok) {
+      const titleMatch = text.match(/<title>(.*?)<\/title>/i);
+      const title = titleMatch ? titleMatch[1].trim() : `Server error (${response.status})`;
+      throw new Error(title || `Request failed with status ${response.status}`);
+    }
+    return text;
+  }
+
   if (!response.ok) {
-    let msg = data.message || data.detail || 'Request failed';
-    if (data.errors) {
+    let msg = data?.message || data?.detail || data?.error || `Request failed with status ${response.status}`;
+    if (data?.errors) {
       const fieldErrors = Object.entries(data.errors)
         .map(([k, v]) => `${k}: ${Array.isArray(v) ? v.join(', ') : v}`)
         .join(' | ');

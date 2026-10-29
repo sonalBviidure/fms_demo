@@ -3,12 +3,9 @@ import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import { getFarmerProfile, updateFarmerProfile } from '../services/api';
 
-/**
- * My Profile Page — View & Update Farmer Account
- */
 export default function ProfilePage() {
   const { user, setUser } = useAuth();
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
 
   const [form, setForm] = useState({
     full_name: '',
@@ -17,8 +14,8 @@ export default function ProfilePage() {
   });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   useEffect(() => {
     loadProfile();
@@ -26,6 +23,7 @@ export default function ProfilePage() {
 
   async function loadProfile() {
     setLoading(true);
+    setError('');
     try {
       const data = await getFarmerProfile();
       setForm({
@@ -33,8 +31,18 @@ export default function ProfilePage() {
         location: data.location || '',
         total_acres: data.total_acres || '',
       });
+      if (setUser) setUser(data);
     } catch (e) {
-      setError(e.message);
+      // Fall back to context user if available
+      if (user) {
+        setForm({
+          full_name: user.full_name || '',
+          location: user.location || '',
+          total_acres: user.total_acres || '',
+        });
+      } else {
+        setError(e.message);
+      }
     } finally {
       setLoading(false);
     }
@@ -50,13 +58,13 @@ export default function ProfilePage() {
     setError('');
     setSuccess('');
     try {
-      const res = await updateFarmerProfile({
+      const payload = {
         full_name: form.full_name,
         location: form.location,
         total_acres: parseFloat(form.total_acres) || 0,
-      });
-      setSuccess(t('profileUpdated'));
-      // Update user in auth context if possible
+      };
+      const res = await updateFarmerProfile(payload);
+      setSuccess(t('profile.profileUpdated'));
       if (res.user && setUser) setUser(res.user);
     } catch (e) {
       setError(e.message);
@@ -77,9 +85,7 @@ export default function ProfilePage() {
           {t('myProfile')}
         </h2>
         <p className="text-muted small mb-0">
-          {language === 'mr'
-            ? 'आपली खाते माहिती पहा आणि अद्यतनित करा'
-            : 'View and update your farmer account information'}
+          {t('profile.subtitle')}
         </p>
       </div>
 
@@ -110,7 +116,7 @@ export default function ProfilePage() {
               </div>
               <h5 className="fw-bold mb-1">{displayName}</h5>
               <small className="text-white-50">
-                {user?.location || (language === 'mr' ? 'महाराष्ट्र' : 'Maharashtra')}
+                {user?.location || t('common.defaultLocation')}
               </small>
             </div>
             <div className="card-body p-4">
@@ -158,9 +164,9 @@ export default function ProfilePage() {
               {/* System Info */}
               <div className="p-3 bg-light rounded-3 text-center">
                 <i className="bi bi-shield-check text-success fs-4 mb-2 d-block"></i>
-                <div className="fw-semibold text-dark small">Farm Management System</div>
+                <div className="fw-semibold text-dark small">{t('navigation.brand')}</div>
                 <small className="text-muted">
-                  Smart Agriculture Platform
+                    {t('common.smartAgriPlatform')}
                 </small>
               </div>
             </div>
@@ -173,7 +179,7 @@ export default function ProfilePage() {
             <div className="card-header bg-white border-bottom py-3">
               <h6 className="fw-bold mb-0 text-dark">
                 <i className="bi bi-pencil-square me-2 text-success"></i>
-                {language === 'mr' ? 'माहिती अद्यतनित करा' : 'Update Profile Information'}
+                {t('profile.updateProfile')}
               </h6>
             </div>
             <div className="card-body p-4">
@@ -195,7 +201,7 @@ export default function ProfilePage() {
                         value={form.full_name}
                         onChange={handleChange}
                         className="form-control"
-                        placeholder={language === 'mr' ? 'उदा. रामदास पाटील' : 'e.g. Ramdas Patil'}
+                        placeholder={t('profile.fullNamePlaceholder')}
                         required
                       />
                     </div>
@@ -212,7 +218,7 @@ export default function ProfilePage() {
                         readOnly
                       />
                       <small className="text-muted">
-                        {language === 'mr' ? 'फोन नंबर बदलता येणार नाही' : 'Phone cannot be changed'}
+                        {t('profile.phoneCannotChange')}
                       </small>
                     </div>
 
@@ -226,7 +232,7 @@ export default function ProfilePage() {
                         value={form.location}
                         onChange={handleChange}
                         className="form-control"
-                        placeholder={language === 'mr' ? 'उदा. सातारा, सांगली, महाराष्ट्र' : 'e.g. Satara, Sangli, Maharashtra'}
+                        placeholder={t('profile.locationPlaceholder')}
                         required
                       />
                     </div>
@@ -254,9 +260,7 @@ export default function ProfilePage() {
                     <div className="col-12 mt-2">
                       <div className="alert alert-info py-2 mb-0 small">
                         <i className="bi bi-info-circle me-2"></i>
-                        {language === 'mr'
-                          ? 'नोंदणी केलेला वापरकर्ता नाव (username) बदलता येणार नाही.'
-                          : 'Registered username cannot be changed. Contact admin if needed.'}
+                        {t('profile.usernameNotice')}
                         {' '}<strong>{user?.username}</strong>
                       </div>
                     </div>
@@ -279,7 +283,7 @@ export default function ProfilePage() {
                       disabled={saving || loading}
                     >
                       <i className="bi bi-arrow-counterclockwise me-1"></i>
-                      {language === 'mr' ? 'रीसेट करा' : 'Reset'}
+                      {t('common.reset')}
                     </button>
                   </div>
                 </form>
@@ -292,7 +296,7 @@ export default function ProfilePage() {
             <div className="card-header bg-white border-bottom py-3">
               <h6 className="fw-bold mb-0 text-dark">
                 <i className="bi bi-shield-lock me-2 text-warning"></i>
-                {language === 'mr' ? 'खाते सुरक्षा' : 'Account Security'}
+                {t('profile.accountSecurity')}
               </h6>
             </div>
             <div className="card-body p-4">
@@ -301,7 +305,7 @@ export default function ProfilePage() {
                   <div className="p-3 bg-light rounded-3">
                     <small className="text-muted d-block mb-1">
                       <i className="bi bi-person-badge me-1"></i>
-                      {language === 'mr' ? 'वापरकर्ता नाव' : 'Username'}
+                      {t('profile.username')}
                     </small>
                     <strong>{user?.username || '—'}</strong>
                   </div>
@@ -310,7 +314,7 @@ export default function ProfilePage() {
                   <div className="p-3 bg-light rounded-3">
                     <small className="text-muted d-block mb-1">
                       <i className="bi bi-key me-1"></i>
-                      {language === 'mr' ? 'संकेतशब्द' : 'Password'}
+                      {t('profile.password')}
                     </small>
                     <strong>••••••••</strong>
                   </div>
@@ -318,9 +322,7 @@ export default function ProfilePage() {
                 <div className="col-12">
                   <small className="text-muted">
                     <i className="bi bi-info-circle me-1"></i>
-                    {language === 'mr'
-                      ? 'संकेतशब्द बदलण्यासाठी Django Admin किंवा प्रशासकाशी संपर्क साधा.'
-                      : 'To change your password, contact the system administrator or use Django Admin.'}
+                    {t('profile.passwordHelp')}
                   </small>
                 </div>
               </div>

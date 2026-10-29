@@ -8,7 +8,7 @@ const REGISTER_BG = 'https://images.unsplash.com/photo-1592982537447-7440770cbfc
 const RegisterPage = () => {
   const navigate = useNavigate();
   const { register } = useAuth();
-  const { t, language, toggleLanguage } = useLanguage();
+  const { t, toggleLanguage } = useLanguage();
 
   const [formData, setFormData] = useState({
     fullName: '',
@@ -32,12 +32,12 @@ const RegisterPage = () => {
     setError(null);
 
     if (formData.password !== formData.confirmPassword) {
-      setError(language === 'mr' ? 'संकेतशब्द जुळत नाहीत.' : 'Passwords do not match.');
+      setError(t('auth.passwordsDoNotMatch'));
       return;
     }
 
     if (formData.password.length < 6) {
-      setError(language === 'mr' ? 'संकेतशब्द किमान ६ अक्षरांचा असावा.' : 'Password must be at least 6 characters long.');
+      setError(t('auth.passwordTooShort'));
       return;
     }
 
@@ -54,7 +54,7 @@ const RegisterPage = () => {
       });
       navigate('/dashboard');
     } catch (err) {
-      setError(err.message || (language === 'mr' ? 'नोंदणी अयशस्वी. तपशील तपासा.' : 'Registration failed. Please check the entered details.'));
+      setError(err.message || t('auth.registrationFailed'));
     } finally {
       setIsSubmitting(false);
     }
@@ -72,25 +72,25 @@ const RegisterPage = () => {
             <div className="d-flex justify-content-between align-items-center mb-3">
               <Link to="/" className="text-decoration-none d-inline-flex align-items-center gap-2 text-white">
                 <i className="bi bi-tree-fill text-warning fs-3"></i>
-                <span className="fs-5 fw-bold">Farm Management System</span>
+                <span className="fs-5 fw-bold">{t('navigation.brand')}</span>
               </Link>
               <button
                 className="lang-toggle-btn"
                 onClick={toggleLanguage}
-                title="Switch Language / भाषा बदला"
+                title={t('navigation.switchLanguage')}
               >
                 <i className="bi bi-translate"></i>
-                {language === 'en' ? '🇮🇳 मराठी' : '🇬🇧 English'}
+                {t('navigation.langButtonText')}
               </button>
             </div>
 
             <div className="card border-0 shadow-lg rounded-4 p-4 p-sm-5 bg-white">
               <div className="d-flex align-items-center justify-content-between mb-4">
                 <h4 className="fw-bold text-dark mb-0">
-                  {language === 'mr' ? 'शेतकरी नोंदणी' : 'Farmer Registration'}
+                  {t('auth.farmerRegistration')}
                 </h4>
                 <span className="badge bg-success-subtle text-success border border-success-subtle">
-                  <i className="bi bi-person-check me-1"></i>Phase 2 Module
+                  <i className="bi bi-person-check me-1"></i>{t('auth.secureRegistration')}
                 </span>
               </div>
 
@@ -105,7 +105,7 @@ const RegisterPage = () => {
                 <div className="row g-3">
                   <div className="col-sm-6">
                     <label className="form-label small fw-semibold text-secondary">
-                      {t('fullName')} *
+                      {t('auth.fullName')}
                     </label>
                     <input
                       type="text"
@@ -113,14 +113,14 @@ const RegisterPage = () => {
                       name="fullName"
                       value={formData.fullName}
                       onChange={handleChange}
-                      placeholder={language === 'mr' ? 'उदा. रमेश पाटील' : 'e.g. Ramesh Patil'}
+                      placeholder={t('auth.fullNamePlaceholder')}
                       required
                     />
                   </div>
 
                   <div className="col-sm-6">
                     <label className="form-label small fw-semibold text-secondary">
-                      {language === 'mr' ? 'मोबाईल नंबर (लॉगिन ID) *' : 'Mobile Number (Login ID) *'}
+                      {t('auth.mobileNumber')}
                     </label>
                     <input
                       type="tel"
@@ -128,7 +128,7 @@ const RegisterPage = () => {
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      placeholder="e.g. 9876543210"
+                      placeholder={t('auth.mobilePlaceholder')}
                       required
                     />
                   </div>
@@ -143,7 +143,7 @@ const RegisterPage = () => {
                       name="location"
                       value={formData.location}
                       onChange={handleChange}
-                      placeholder={language === 'mr' ? 'उदा. बुधगाव, सांगली, महाराष्ट्र' : 'e.g. Kolhapur, Maharashtra'}
+                      placeholder={t('auth.locationPlaceholder')}
                       required
                     />
                   </div>
@@ -160,14 +160,14 @@ const RegisterPage = () => {
                       name="totalAcres"
                       value={formData.totalAcres}
                       onChange={handleChange}
-                      placeholder="e.g. 5.5"
+                      placeholder={t('auth.totalLandPlaceholder')}
                       required
                     />
                   </div>
 
                   <div className="col-sm-6">
                     <label className="form-label small fw-semibold text-secondary">
-                      {language === 'mr' ? 'संकेतशब्द (पासवर्ड) *' : 'Password *'}
+                      {t('auth.passwordMinChars')}
                     </label>
                     <input
                       type="password"
@@ -175,14 +175,14 @@ const RegisterPage = () => {
                       name="password"
                       value={formData.password}
                       onChange={handleChange}
-                      placeholder={language === 'mr' ? 'किमान ६ अक्षरे' : 'Minimum 6 characters'}
+                      placeholder={t('auth.passwordMinPlaceholder')}
                       required
                     />
                   </div>
 
                   <div className="col-sm-6">
                     <label className="form-label small fw-semibold text-secondary">
-                      {language === 'mr' ? 'संकेतशब्द पुष्टी *' : 'Confirm Password *'}
+                      {t('auth.confirmPassword')}
                     </label>
                     <input
                       type="password"
@@ -190,7 +190,7 @@ const RegisterPage = () => {
                       name="confirmPassword"
                       value={formData.confirmPassword}
                       onChange={handleChange}
-                      placeholder={language === 'mr' ? 'पासवर्ड पुन्हा टाका' : 'Repeat password'}
+                      placeholder={t('auth.confirmPasswordPlaceholder')}
                       required
                     />
                   </div>
@@ -204,12 +204,12 @@ const RegisterPage = () => {
                   {isSubmitting ? (
                     <>
                       <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                      <span>{language === 'mr' ? 'खाते तयार होत आहे...' : 'Creating Account...'}</span>
+                      <span>{t('auth.creatingAccount')}</span>
                     </>
                   ) : (
                     <>
                       <i className="bi bi-person-plus"></i>
-                      <span>{language === 'mr' ? 'शेतकरी प्रोफाइल तयार करा' : 'Create Farmer Profile'}</span>
+                      <span>{t('auth.createFarmerProfile')}</span>
                     </>
                   )}
                 </button>
@@ -217,21 +217,21 @@ const RegisterPage = () => {
 
               <div className="text-center mt-3 pt-3 border-top">
                 <p className="small text-muted mb-1">
-                  {language === 'mr' ? 'आधीच नोंदणीकृत?' : 'Already registered?'}{' '}
+                  {t('auth.alreadyRegistered')}{' '}
                   <Link to="/login" className="text-success fw-semibold text-decoration-none">
-                    {language === 'mr' ? 'प्रवेश करा (Sign In)' : 'Sign In'}
+                    {t('auth.signIn')}
                   </Link>
                 </p>
                 <Link to="/" className="small text-secondary text-decoration-none">
                   <i className="bi bi-arrow-left me-1"></i>
-                  {language === 'mr' ? 'मुख्य पृष्ठावर जा' : 'Back to Home'}
+                  {t('auth.backToHome')}
                 </Link>
               </div>
             </div>
 
             <div className="text-center mt-4">
               <small className="text-white-50">
-                Farm Management System &bull; Intelligent Agricultural Advisory Platform
+                {t('navigation.brand')} &bull; {t('common.smartAgriAdvisory')}
               </small>
             </div>
           </div>

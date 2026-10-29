@@ -4,8 +4,6 @@ import { useLanguage } from '../../context/LanguageContext';
 
 /**
  * Expense Tracking Page — CRUD
- * 
- * , 
  */
 
 const CATEGORY_ICONS = {
@@ -29,7 +27,7 @@ const CATEGORIES = ['Seeds', 'Labour', 'Fertilizers', 'Pesticides', 'Irrigation'
 const emptyForm = { crop: '', expense_category: 'Seeds', description: '', amount: '', expense_date: '' };
 
 export default function ExpensesPage() {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
   const [expenses, setExpenses] = useState([]);
   const [crops, setCrops] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -90,10 +88,10 @@ export default function ExpensesPage() {
       const payload = { ...form, crop: parseInt(form.crop), amount: parseFloat(form.amount) };
       if (editingExpense) {
         await updateExpense(editingExpense.id, payload);
-        setSuccess(language === 'mr' ? '✅ खर्च अद्यतनित केला.' : '✅ Expense updated successfully.');
+        setSuccess(t('expenses.expenseUpdated'));
       } else {
         await createExpense(payload);
-        setSuccess(language === 'mr' ? '✅ खर्च जोडला गेला.' : '✅ Expense added successfully.');
+        setSuccess(t('expenses.expenseAdded'));
       }
       setShowModal(false);
       await loadData();
@@ -107,7 +105,7 @@ export default function ExpensesPage() {
   async function handleDelete(id) {
     try {
       await deleteExpense(id);
-      setSuccess(language === 'mr' ? '🗑️ खर्च हटवला.' : '🗑️ Expense deleted.');
+      setSuccess(t('expenses.expenseDeleted'));
       setDeleteConfirm(null);
       await loadData();
     } catch (e) {
@@ -154,9 +152,7 @@ export default function ExpensesPage() {
       {crops.length === 0 && !loading && (
         <div className="alert alert-warning">
           <i className="bi bi-exclamation-triangle me-2"></i>
-          {language === 'mr'
-            ? 'कोणतेही पीक आढळले नाही. प्रथम पीक व्यवस्थापन मधून पीक जोडा.'
-            : 'No crops found. Add a crop first from Crop Management.'}
+          {t('expenses.noCropsFoundAlert')}
         </div>
       )}
 
@@ -196,13 +192,13 @@ export default function ExpensesPage() {
           <div className="card-header bg-white border-bottom">
             <h6 className="mb-0 fw-semibold">
               <i className="bi bi-pie-chart me-2 text-success"></i>
-              {language === 'mr' ? 'वर्गवारीनुसार खर्च' : 'Expense by Category'}
+              {t('expenses.expenseByCategory')}
             </h6>
           </div>
           <div className="card-body d-flex flex-wrap gap-2">
             {Object.entries(categoryTotals).sort(([, a], [, b]) => b - a).map(([cat, total]) => (
               <div key={cat} className={`badge ${CATEGORY_COLORS[cat]} px-3 py-2 fs-6`}>
-                {CATEGORY_ICONS[cat]} {cat}: ₹{total.toLocaleString('en-IN')}
+                {CATEGORY_ICONS[cat]} {t(`expenseCategories.${cat}`, { defaultValue: cat })}: ₹{total.toLocaleString('en-IN')}
               </div>
             ))}
           </div>
@@ -213,7 +209,7 @@ export default function ExpensesPage() {
       <div className="card border-0 shadow-sm mb-3">
         <div className="card-body py-2 d-flex gap-3 flex-wrap align-items-center">
           <div className="d-flex align-items-center gap-2">
-            <label className="form-label mb-0 fw-semibold small">{language === 'mr' ? 'पीक:' : 'Crop:'}</label>
+            <label className="form-label mb-0 fw-semibold small">{t('expenses.crop')}</label>
             <select className="form-select form-select-sm" value={filterCrop} onChange={(e) => setFilterCrop(e.target.value)}>
               <option value="All">{t('allCrops')}</option>
               {crops.map((c) => <option key={c.id} value={c.id}>{c.crop_name}</option>)}
@@ -223,7 +219,7 @@ export default function ExpensesPage() {
             <label className="form-label mb-0 fw-semibold small">{t('category')}:</label>
             <select className="form-select form-select-sm" value={filterCategory} onChange={(e) => setFilterCategory(e.target.value)}>
               <option value="All">{t('allCategories')}</option>
-              {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
+              {CATEGORIES.map((c) => <option key={c} value={c}>{t(`expenseCategories.${c}`, { defaultValue: c })}</option>)}
             </select>
           </div>
         </div>
@@ -238,8 +234,8 @@ export default function ExpensesPage() {
             <div className="text-center py-5 text-muted">
               <i className="bi bi-receipt fs-1 d-block mb-2"></i>
               {expenses.length === 0 
-                ? (language === 'mr' ? 'कोणताही खर्च नाही. "खर्च जोडा" वर क्लिक करा.' : 'No expenses yet. Click "Add Expense" to start tracking.') 
-                : (language === 'mr' ? 'फिल्टरशी जुळणारा खर्च नाही.' : 'No expenses match your filters.')}
+                ? t('expenses.noExpensesYet') 
+                : t('expenses.noExpensesMatch')}
             </div>
           ) : (
             <div className="table-responsive">
@@ -248,7 +244,7 @@ export default function ExpensesPage() {
                   <tr>
                     <th>#</th>
                     <th>{t('category')}</th>
-                    <th>{language === 'mr' ? 'पीक' : 'Crop'}</th>
+                    <th>{t('cropName')}</th>
                     <th>{t('description')}</th>
                     <th>{t('date')}</th>
                     <th className="text-end">{t('amount')} (₹)</th>
@@ -261,7 +257,7 @@ export default function ExpensesPage() {
                       <td className="text-muted">{idx + 1}</td>
                       <td>
                         <span className={`badge ${CATEGORY_COLORS[exp.expense_category] || 'bg-secondary-subtle text-secondary'}`}>
-                          {CATEGORY_ICONS[exp.expense_category]} {exp.expense_category}
+                          {CATEGORY_ICONS[exp.expense_category]} {t(`expenseCategories.${exp.expense_category}`, { defaultValue: exp.expense_category })}
                         </span>
                       </td>
                       <td>{getCropName(exp.crop)}</td>
@@ -281,7 +277,7 @@ export default function ExpensesPage() {
                 </tbody>
                 <tfoot className="table-light">
                   <tr>
-                    <td colSpan="5" className="text-end fw-bold">{language === 'mr' ? 'एकूण:' : 'Total:'}</td>
+                    <td colSpan="5" className="text-end fw-bold">{t('common.total')}:</td>
                     <td className="text-end fw-bold text-danger">₹{totalAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
                     <td></td>
                   </tr>
@@ -299,7 +295,7 @@ export default function ExpensesPage() {
             <div className="modal-content border-0 shadow">
               <div className="modal-header bg-success text-white">
                 <h5 className="modal-title fw-bold">
-                  {editingExpense ? (language === 'mr' ? '✏️ खर्च संपादित करा' : '✏️ Edit Expense') : (language === 'mr' ? '➕ खर्च जोडा' : '➕ Add Expense')}
+                  {editingExpense ? `✏️ ${t('expenses.editExpense')}` : `➕ ${t('expenses.addExpense')}`}
                 </h5>
                 <button className="btn-close btn-close-white" onClick={() => setShowModal(false)}></button>
               </div>
@@ -308,21 +304,21 @@ export default function ExpensesPage() {
                   {error && <div className="alert alert-danger py-2">{error}</div>}
                   <div className="row g-3">
                     <div className="col-md-6">
-                      <label className="form-label fw-semibold">{language === 'mr' ? 'पीक *' : 'Crop *'}</label>
+                      <label className="form-label fw-semibold">{t('expenses.cropRequired')}</label>
                       <select name="crop" value={form.crop} onChange={handleChange} className="form-select" required>
-                        <option value="">{language === 'mr' ? 'पीक निवडा...' : 'Select crop...'}</option>
-                        {crops.map((c) => <option key={c.id} value={c.id}>{c.crop_name} ({c.season})</option>)}
+                        <option value="">{t('expenses.selectCrop')}</option>
+                        {crops.map((c) => <option key={c.id} value={c.id}>{c.crop_name} ({t(`seasonLabels.${c.season}`, { defaultValue: c.season })})</option>)}
                       </select>
                     </div>
                     <div className="col-md-6">
                       <label className="form-label fw-semibold">{t('category')} *</label>
                       <select name="expense_category" value={form.expense_category} onChange={handleChange} className="form-select" required>
-                        {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
+                        {CATEGORIES.map((c) => <option key={c} value={c}>{t(`expenseCategories.${c}`, { defaultValue: c })}</option>)}
                       </select>
                     </div>
                     <div className="col-12">
                       <label className="form-label fw-semibold">{t('description')}</label>
-                      <input name="description" value={form.description} onChange={handleChange} className="form-control" placeholder={language === 'mr' ? 'उदा. ५ मजूर निंदणीसाठी' : 'e.g. 5 labourers for weeding'} />
+                      <input name="description" value={form.description} onChange={handleChange} className="form-control" placeholder={t('expenses.descriptionPlaceholder')} />
                     </div>
                     <div className="col-md-6">
                       <label className="form-label fw-semibold">{t('amount')} (₹) *</label>
@@ -341,7 +337,7 @@ export default function ExpensesPage() {
                   <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>{t('cancel')}</button>
                   <button type="submit" className="btn btn-success" disabled={saving}>
                     {saving && <span className="spinner-border spinner-border-sm me-1"></span>}
-                    {editingExpense ? (language === 'mr' ? 'अद्यतनित करा' : 'Update') : t('addExpense')}
+                    {editingExpense ? t('common.update') : t('addExpense')}
                   </button>
                 </div>
               </form>
@@ -358,9 +354,9 @@ export default function ExpensesPage() {
               <div className="modal-body text-center py-4">
                 <i className="bi bi-exclamation-triangle-fill text-danger fs-1 d-block mb-2"></i>
                 <p>
-                  {language === 'mr' ? 'खर्च हटवायचा का?' : 'Delete expense'}{' '}
-                  <strong>"{deleteConfirm.expense_category}"</strong> — ₹{Number(deleteConfirm.amount).toLocaleString('en-IN')}?
+                  {t('expenses.deleteExpenseConfirm', { crop: deleteConfirm.expense_category, amount: Number(deleteConfirm.amount).toLocaleString('en-IN') })}
                 </p>
+                <small className="text-muted d-block">{t('expenses.deleteWarning')}</small>
               </div>
               <div className="modal-footer justify-content-center">
                 <button className="btn btn-secondary" onClick={() => setDeleteConfirm(null)}>{t('cancel')}</button>

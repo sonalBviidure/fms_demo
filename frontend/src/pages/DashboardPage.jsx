@@ -14,7 +14,7 @@ import {
   PointElement,
   LineElement,
 } from 'chart.js';
-import { Doughnut, Bar } from 'react-chartjs-2';
+import { Doughnut } from 'react-chartjs-2';
 
 ChartJS.register(
   CategoryScale,
@@ -30,13 +30,12 @@ ChartJS.register(
 // A simple field background for the dashboard banner
 const DASHBOARD_BG = 'https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=1400&q=70';
 
-
 const DashboardPage = () => {
   const { user } = useAuth();
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
 
   const farmerName = user?.full_name || user?.username || 'Farmer';
-  const farmLocation = user?.location || 'Maharashtra';
+  const farmLocation = user?.location || t('common.defaultLocation');
   const farmAcres = user?.total_acres ? `${user.total_acres} ${t('acres')}` : t('registered');
 
   const [loading, setLoading] = useState(true);
@@ -81,8 +80,8 @@ const DashboardPage = () => {
     {
       id: 'crops',
       title: t('totalCrops'),
-      value: `${summary.active_crops} ${language === 'mr' ? 'सक्रिय' : 'Active'}`,
-      subtitle: `${summary.total_crops} ${language === 'mr' ? 'एकूण,' : 'Total,'} ${summary.total_fields} ${language === 'mr' ? 'शेत' : 'Fields'}`,
+      value: `${summary.active_crops} ${t('common.active')}`,
+      subtitle: `${summary.total_crops} ${t('common.total')}, ${summary.total_fields} ${t('common.field')}`,
       icon: 'bi-flower2',
       color: 'text-success',
       bgColor: 'bg-success-subtle',
@@ -92,7 +91,7 @@ const DashboardPage = () => {
       id: 'expenses',
       title: t('totalExpenses'),
       value: `₹ ${Number(summary.total_expenses).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
-      subtitle: language === 'mr' ? 'खते, बियाणे, मजुरी व यंत्रे' : 'Fertilizers, Seeds, Labor & Machinery',
+      subtitle: t('dashboard.expensesSubtitle'),
       icon: 'bi-wallet2',
       color: 'text-danger',
       bgColor: 'bg-danger-subtle',
@@ -102,7 +101,7 @@ const DashboardPage = () => {
       id: 'revenue',
       title: t('totalRevenue'),
       value: `₹ ${Number(summary.total_revenue).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
-      subtitle: language === 'mr' ? 'काढणी बॅचपासून नोंदवलेले' : 'Recorded from harvested batches sold',
+      subtitle: t('dashboard.revenueSubtitle'),
       icon: 'bi-cash-coin',
       color: 'text-primary',
       bgColor: 'bg-primary-subtle',
@@ -113,8 +112,8 @@ const DashboardPage = () => {
       title: t('netProfit'),
       value: `${summary.net_profit >= 0 ? '+' : ''}₹ ${Number(summary.net_profit).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
       subtitle: summary.net_profit >= 0
-        ? (language === 'mr' ? 'फायदेशीर लागवड मार्जिन' : 'Profitable cultivation margin')
-        : (language === 'mr' ? 'खर्च महसुलापेक्षा जास्त' : 'Expenditure exceeds realized sales'),
+        ? t('dashboard.profitableMargin')
+        : t('dashboard.lossMargin'),
       icon: summary.net_profit >= 0 ? 'bi-graph-up-arrow' : 'bi-graph-down-arrow',
       color: summary.net_profit >= 0 ? 'text-success' : 'text-danger',
       bgColor: summary.net_profit >= 0 ? 'bg-success-subtle' : 'bg-danger-subtle',
@@ -124,7 +123,6 @@ const DashboardPage = () => {
 
   return (
     <div className="container-fluid p-0">
-
       {/* ── Welcome Banner with subtle farm bg ──────────────── */}
       <div
         className="rounded-4 p-4 mb-4 text-white position-relative overflow-hidden"
@@ -140,9 +138,7 @@ const DashboardPage = () => {
               {t('welcomeBack')}, {farmerName}! 🌾
             </h4>
             <p className="mb-0 small" style={{ color: 'rgba(255,255,255,0.75)' }}>
-              {language === 'mr'
-                ? 'थेट परिचालन मेट्रिक्स, सक्रिय पीक ट्रॅकिंग आणि आर्थिक विश्लेषण.'
-                : 'Live operational metrics, active crop tracking, and financial analytics.'}
+              {t('dashboard.subtitle')}
             </p>
           </div>
           <div className="col-auto d-flex align-items-center gap-2 flex-wrap">
@@ -154,7 +150,7 @@ const DashboardPage = () => {
               className="btn btn-light btn-sm px-3"
               onClick={loadDashboard}
               disabled={loading}
-              title={language === 'mr' ? 'रिफ्रेश करा' : 'Refresh metrics'}
+              title={t('dashboard.refreshMetrics')}
             >
               <i className={`bi bi-arrow-clockwise me-1 ${loading ? 'spin' : ''}`}></i>
               {t('refresh')}
@@ -196,11 +192,11 @@ const DashboardPage = () => {
               </div>
               <div className="pt-3 mt-3 border-top d-flex justify-content-between align-items-center">
                 <Link to={stat.route} className="text-decoration-none small text-success fw-semibold">
-                  {language === 'mr' ? 'तपशील पहा' : 'View Details'}{' '}
+                  {t('common.viewDetails')}{' '}
                   <i className="bi bi-chevron-right ms-1"></i>
                 </Link>
                 <span className="badge bg-light text-muted border" style={{ fontSize: '0.68rem' }}>
-                  {language === 'mr' ? 'लाइव्ह डेटा' : 'Live Data'}
+                  {t('common.liveData')}
                 </span>
               </div>
             </div>
@@ -216,11 +212,11 @@ const DashboardPage = () => {
             <div className="card-header bg-white border-bottom py-3 d-flex justify-content-between align-items-center">
               <h6 className="fw-bold mb-0 text-dark">
                 <i className="bi bi-flower2 text-success me-2"></i>
-                {language === 'mr' ? 'सक्रिय पिके व देखरेख' : 'Active Crops & Monitoring'}
+                {t('dashboard.activeCropsMonitoring')}
               </h6>
               <Link to="/crops" className="btn btn-outline-success btn-sm">
                 <i className="bi bi-plus-lg me-1"></i>
-                {language === 'mr' ? 'पिके व्यवस्थापित करा' : 'Manage Crops'}
+                {t('dashboard.manageCrops')}
               </Link>
             </div>
             <div className="card-body p-0">
@@ -233,11 +229,11 @@ const DashboardPage = () => {
                 <div className="text-center py-5 text-muted">
                   <i className="bi bi-seedling fs-1 d-block mb-2 text-success opacity-50"></i>
                   <p className="mb-2">
-                    {language === 'mr' ? 'अजून कोणतीही पिके नोंदवलेली नाहीत.' : 'No active crops logged yet.'}
+                    {t('dashboard.noActiveCrops')}
                   </p>
                   <Link to="/crops" className="btn btn-success btn-sm">
                     <i className="bi bi-plus-lg me-1"></i>
-                    {language === 'mr' ? 'पहिले पीक जोडा' : 'Add Your First Crop'}
+                    {t('dashboard.addFirstCrop')}
                   </Link>
                 </div>
               ) : (
@@ -261,12 +257,12 @@ const DashboardPage = () => {
                           </td>
                           <td>
                             {crop.field_name}{' '}
-                            <span className="text-muted">({crop.field_land_area} {language === 'mr' ? 'एकर' : 'Ac'})</span>
+                            <span className="text-muted">({crop.field_land_area} {t('common.ac')})</span>
                           </td>
                           <td>{crop.sowing_date}</td>
                           <td>
                             <span className="badge bg-primary-subtle text-primary">
-                              {crop.season}
+                              {t(`seasonLabels.${crop.season}`, { defaultValue: crop.season })}
                             </span>
                           </td>
                           <td>
@@ -276,14 +272,14 @@ const DashboardPage = () => {
                               crop.status === 'Sown'      ? 'bg-info-subtle text-info' :
                               'bg-secondary-subtle text-secondary'
                             }`}>
-                              {crop.status}
+                              {t(`cropStatuses.${crop.status}`, { defaultValue: crop.status })}
                             </span>
                           </td>
                           <td className="text-end pe-3">
                             <Link
                               to={`/expenses?crop_id=${crop.id}`}
                               className="btn btn-sm btn-outline-secondary py-0 px-2"
-                              title={language === 'mr' ? 'खर्च पहा' : 'View Expenses'}
+                              title={t('dashboard.viewExpenses')}
                             >
                               <i className="bi bi-wallet2"></i>
                             </Link>
@@ -298,10 +294,10 @@ const DashboardPage = () => {
             <div className="card-footer bg-white text-muted small py-2 ps-3 d-flex justify-content-between align-items-center">
               <span>
                 <i className="bi bi-database-check text-success me-1"></i>
-                {language === 'mr' ? 'MySQL डेटाबेसशी जोडलेले' : 'Connected to MySQL database'} (<code>farm_db</code>)
+                {t('dashboard.connectedDb')}
               </span>
               <Link to="/crops" className="text-decoration-none text-success fw-semibold">
-                {language === 'mr' ? 'सर्व पिके पहा' : 'View all crops'} &rarr;
+                {t('dashboard.viewAllCrops')} &rarr;
               </Link>
             </div>
           </div>
@@ -340,7 +336,7 @@ const DashboardPage = () => {
             <div className="card-header bg-white border-bottom py-3">
               <h6 className="fw-bold mb-0 text-dark">
                 <i className="bi bi-pie-chart-fill text-success me-2"></i>
-                {language === 'mr' ? 'आर्थिक विहंगावलोकन (Chart.js)' : 'Financial Overview (Chart.js)'}
+                {t('dashboard.financialOverviewChart')}
               </h6>
             </div>
             <div className="card-body">
@@ -349,8 +345,8 @@ const DashboardPage = () => {
                   <Doughnut
                     data={{
                       labels: [
-                        language === 'mr' ? 'खर्च' : 'Expenses',
-                        language === 'mr' ? 'महसूल' : 'Revenue',
+                        t('dashboard.expenses'),
+                        t('dashboard.revenue'),
                       ],
                       datasets: [
                         {
@@ -373,7 +369,7 @@ const DashboardPage = () => {
               ) : (
                 <p className="text-muted small text-center my-3">
                   <i className="bi bi-info-circle me-1"></i>
-                  {language === 'mr' ? 'आलेख पाहण्यासाठी खर्च किंवा विक्री जोडा' : 'Log expenses or sales to view chart'}
+                  {t('dashboard.logExpensesToViewChart')}
                 </p>
               )}
             </div>
@@ -385,7 +381,7 @@ const DashboardPage = () => {
               <div className="card-header bg-white border-bottom py-3">
                 <h6 className="fw-bold mb-0 text-dark">
                   <i className="bi bi-bar-chart-line text-success me-2"></i>
-                  {language === 'mr' ? 'हंगामनिहाय माहिती' : 'Season-wise Breakdown'}
+                  {t('dashboard.seasonBreakdown')}
                 </h6>
               </div>
               <div className="card-body">
@@ -394,7 +390,7 @@ const DashboardPage = () => {
                   .map((s, i) => (
                     <div key={i} className="mb-3">
                       <div className="d-flex justify-content-between small mb-1">
-                        <span className="fw-semibold">{s.season}</span>
+                        <span className="fw-semibold">{t(`seasonLabels.${s.season}`, { defaultValue: s.season })}</span>
                         <span className={s.profit_loss >= 0 ? 'text-success' : 'text-danger'}>
                           {s.profit_loss >= 0 ? '+' : ''}₹{Number(s.profit_loss).toLocaleString('en-IN')}
                         </span>
@@ -409,19 +405,19 @@ const DashboardPage = () => {
                   ))}
                 {season_breakdown.every((s) => s.total_expense === 0 && s.total_revenue === 0) && (
                   <p className="text-muted small text-center mb-0">
-                    {language === 'mr' ? 'अजून माहिती उपलब्ध नाही' : 'No seasonal data yet'}
+                    {t('dashboard.noSeasonalData')}
                   </p>
                 )}
               </div>
             </div>
           )}
 
-          {/* AI Modules */}
+          {/* AI Advisory & Predictions */}
           <div className="card border-0 shadow-sm rounded-4 bg-white mb-4">
             <div className="card-header bg-white border-bottom py-3">
               <h6 className="fw-bold mb-0 text-dark">
                 <i className="bi bi-cpu text-primary me-2"></i>
-                AI & {language === 'mr' ? 'अनुमान मॉड्यूल्स' : 'Predictive Modules'}
+                {t('dashboard.aiPredictions')}
               </h6>
             </div>
             <div className="card-body">
@@ -430,29 +426,23 @@ const DashboardPage = () => {
                   {
                     route: '/ai-crop-recommendation',
                     icon: '🌱',
-                    title: language === 'mr' ? 'पीक शिफारस' : 'Crop Recommendation',
-                    desc: language === 'mr'
-                      ? 'माती, पाऊस आणि हंगामावर आधारित पीक सल्ला.'
-                      : 'Advises optimal crops based on soil nutrients, rainfall & season.',
-                    badge: 'Active', badgeColor: 'bg-success-subtle text-success',
+                    title: t('dashboard.cropRecommendation'),
+                    desc: t('dashboard.cropRecDesc'),
+                    badge: t('common.active'), badgeColor: 'bg-success-subtle text-success',
                   },
                   {
                     route: '/ai-yield-prediction',
                     icon: '📊',
-                    title: language === 'mr' ? 'उत्पन्न अंदाज' : 'Yield Prediction',
-                    desc: language === 'mr'
-                      ? 'हवामान घटकांचा वापर करून एकरी क्विंटल मोजतो.'
-                      : 'Calculates expected quintals per acre using agro-climatic factors.',
-                    badge: 'Active', badgeColor: 'bg-info-subtle text-info',
+                    title: t('dashboard.yieldPrediction'),
+                    desc: t('dashboard.yieldPredDesc'),
+                    badge: t('common.active'), badgeColor: 'bg-info-subtle text-info',
                   },
                   {
                     route: '/ai-profit-prediction',
                     icon: '💰',
-                    title: language === 'mr' ? 'नफा अंदाज' : 'Profit Prediction',
-                    desc: language === 'mr'
-                      ? 'APMC मंडी दरातून निव्वळ आर्थिक परतावा अंदाजतो.'
-                      : 'Forecasts net financial realization from yield and APMC Mandi rates.',
-                    badge: 'Active', badgeColor: 'bg-warning-subtle text-warning',
+                    title: t('dashboard.profitPrediction'),
+                    desc: t('dashboard.profitPredDesc'),
+                    badge: t('common.active'), badgeColor: 'bg-warning-subtle text-warning',
                   },
                 ].map((mod) => (
                   <Link key={mod.route} to={mod.route} className="text-decoration-none">
@@ -474,12 +464,12 @@ const DashboardPage = () => {
             <div className="d-flex align-items-center gap-3">
               <i className="bi bi-shield-check fs-1 opacity-75"></i>
               <div>
-                <h6 className="fw-bold mb-1">Farm Management System</h6>
+                <h6 className="fw-bold mb-1">{t('navigation.brand')}</h6>
                 <p className="small mb-1" style={{ color: 'rgba(255,255,255,0.7)' }}>
-                  Intelligent Agri-Tech Platform
+                  {t('common.agriTechPlatform')}
                 </p>
                 <p className="small mb-0" style={{ color: 'rgba(255,255,255,0.65)' }}>
-                  Empowering farmers with smart yield prediction, live market prices, and financial intelligence.
+                  {t('common.farmersEmpower')}
                 </p>
               </div>
             </div>

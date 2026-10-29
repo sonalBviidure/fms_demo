@@ -3,7 +3,7 @@ import { getCrops, getProfitPredictions, submitProfitPrediction, getCropFieldInt
 import { useLanguage } from '../../context/LanguageContext';
 
 export default function AIProfitPredPage() {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
 
   const [crops, setCrops] = useState([]);
   const [history, setHistory] = useState([]);
@@ -98,7 +98,7 @@ export default function AIProfitPredPage() {
   async function handleSubmit(e) {
     e.preventDefault();
     if (!form.crop || !form.estimated_cost || !form.predicted_yield || !form.estimated_selling_price) {
-      setError(language === 'mr' ? 'कृपया सर्व माहिती भरा.' : 'Please fill in all required fields.');
+      setError(t('profitPrediction.fillAllFields'));
       return;
     }
 
@@ -142,14 +142,12 @@ export default function AIProfitPredPage() {
             {t('aiProfitPredTitle')}
           </h2>
           <p className="text-muted mb-0 small">
-            {language === 'mr'
-              ? 'शेतातील प्रत्यक्ष खर्च डेटा आणि सध्याच्या APMC बाजार भावावरून नफा अंदाज.'
-              : 'Predicts net financial returns by analyzing your recorded field expenses and live APMC market prices.'}
+            {t('profitPrediction.subtitle')}
           </p>
         </div>
         <span className="badge bg-success-subtle text-success border border-success px-3 py-2">
           <i className="bi bi-broadcast me-1"></i>
-          {language === 'mr' ? 'लाईव्ह बाजार भाव जोडलेले' : 'Live Market Rates Active'}
+          {t('profitPrediction.liveRatesActive')}
         </span>
       </div>
 
@@ -168,15 +166,13 @@ export default function AIProfitPredPage() {
       ) : crops.length === 0 ? (
         <div className="card border-0 shadow-sm rounded-4 p-5 text-center bg-white">
           <i className="bi bi-flower2 fs-1 text-muted mb-3"></i>
-          <h4>{language === 'mr' ? 'पिके सापडली नाहीत' : 'No Crops Found'}</h4>
+          <h4>{t('profitPrediction.noCropsFound')}</h4>
           <p className="text-muted">
-            {language === 'mr'
-              ? 'नफा अंदाज चालवण्यापूर्वी किमान एक पीक नोंदवा.'
-              : 'Register at least one crop before running profit estimation.'}
+            {t('profitPrediction.registerCropFirst')}
           </p>
           <a href="/crops" className="btn btn-success px-4 mx-auto" style={{ maxWidth: 200 }}>
             <i className="bi bi-plus-lg me-1"></i>
-            {language === 'mr' ? 'पीक जोडा' : 'Add Crop'}
+            {t('profitPrediction.addCrop')}
           </a>
         </div>
       ) : (
@@ -190,25 +186,25 @@ export default function AIProfitPredPage() {
                   <div className="d-flex justify-content-between align-items-center mb-2">
                     <span className="badge bg-success-subtle text-success fw-bold">
                       <i className="bi bi-geo-alt-fill me-1"></i>
-                      {language === 'mr' ? 'शेतातील प्रत्यक्ष माहिती' : 'Field Intelligence Data'}
+                      {t('profitPrediction.fieldIntelligenceData')}
                     </span>
                     {intelLoading && <span className="spinner-border spinner-border-sm text-success"></span>}
                   </div>
                   <div className="row g-2 small">
                     <div className="col-6">
-                      <span className="text-muted d-block">{language === 'mr' ? 'शेत / क्षेत्र:' : 'Field / Area:'}</span>
+                      <span className="text-muted d-block">{t('profitPrediction.fieldArea')}</span>
                       <strong>{fieldIntel.field_name || 'Plot 1'} ({fieldIntel.land_area} {t('acres')})</strong>
                     </div>
                     <div className="col-6">
-                      <span className="text-muted d-block">{language === 'mr' ? 'नोंदवलेला खर्च:' : 'Recorded Expenses:'}</span>
+                      <span className="text-muted d-block">{t('profitPrediction.recordedExpenses')}</span>
                       <strong className="text-danger">₹{fieldIntel.recorded_expense.toLocaleString('en-IN')}</strong>
                     </div>
                     <div className="col-6">
-                      <span className="text-muted d-block">{language === 'mr' ? 'सध्याचा बाजार भाव:' : 'Current APMC Price:'}</span>
+                      <span className="text-muted d-block">{t('profitPrediction.currentApmcPrice')}</span>
                       <strong className="text-primary">₹{fieldIntel.current_market_price.toLocaleString('en-IN')} / Qtl</strong>
                     </div>
                     <div className="col-6">
-                      <span className="text-muted d-block">{language === 'mr' ? 'मंडी बाजार:' : 'Mandi Market:'}</span>
+                      <span className="text-muted d-block">{t('profitPrediction.mandiMarket')}</span>
                       <strong className="text-dark">{fieldIntel.market_name}</strong>
                     </div>
                   </div>
@@ -220,14 +216,14 @@ export default function AIProfitPredPage() {
               <div className="card-header bg-white border-bottom py-3">
                 <h6 className="fw-bold text-dark mb-0">
                   <i className="bi bi-calculator me-2 text-success"></i>
-                  {language === 'mr' ? 'पीक निवडा व अंदाज मिळवा' : 'Select Crop & Forecast Profit'}
+                  {t('profitPrediction.selectCropAndForecast')}
                 </h6>
               </div>
               <div className="card-body p-4">
                 <form onSubmit={handleSubmit}>
                   {/* Crop selection */}
                   <div className="mb-3">
-                    <label className="form-label fw-semibold small">{language === 'mr' ? 'शेतातील पीक निवडा *' : 'Select Crop from your Fields *'}</label>
+                    <label className="form-label fw-semibold small">{t('profitPrediction.selectCropFromFields')}</label>
                     <select
                       name="crop"
                       value={form.crop}
@@ -243,7 +239,7 @@ export default function AIProfitPredPage() {
                     </select>
                     {selectedCrop && (
                       <small className="text-muted mt-1 d-block">
-                        {language === 'mr' ? 'पेरणी दिनांक:' : 'Sown Date:'} <strong>{selectedCrop.sowing_date}</strong>
+                        {t('profitPrediction.sownDate')} <strong>{selectedCrop.sowing_date}</strong>
                       </small>
                     )}
                   </div>
@@ -254,7 +250,7 @@ export default function AIProfitPredPage() {
                       <label className="form-label fw-semibold small mb-0">{t('estimatedCost')} *</label>
                       {fieldIntel && fieldIntel.recorded_expense > 0 && (
                         <span className="badge bg-light text-muted border small">
-                          ₹{fieldIntel.recorded_expense.toLocaleString('en-IN')} {language === 'mr' ? 'नोंदवलेला' : 'recorded'}
+                          ₹{fieldIntel.recorded_expense.toLocaleString('en-IN')} {t('profitPrediction.recorded')}
                         </span>
                       )}
                     </div>
@@ -273,17 +269,17 @@ export default function AIProfitPredPage() {
                       />
                     </div>
                     <small className="text-muted">
-                      {fieldIntel?.cost_source || (language === 'mr' ? 'बियाणे + खते + मजुरी + सिंचन एकूण खर्च' : 'Total inputs: seeds, fertilizer, labor, irrigation')}
+                      {fieldIntel?.cost_source || t('profitPrediction.costInputsHint')}
                     </small>
                   </div>
 
                   {/* Expected Yield */}
                   <div className="mb-3">
                     <div className="d-flex justify-content-between align-items-center mb-1">
-                      <label className="form-label fw-semibold small mb-0">{t('expectedYield')} ({language === 'mr' ? 'क्विंटल' : 'Quintals'}) *</label>
+                      <label className="form-label fw-semibold small mb-0">{t('profitPrediction.yieldQuintals')}</label>
                       {fieldIntel && (
                         <span className="badge bg-light text-muted border small">
-                          {fieldIntel.estimated_yield} Qtl {language === 'mr' ? 'अंदाज' : 'estimate'}
+                          {fieldIntel.estimated_yield} Qtl {t('profitPrediction.estimate')}
                         </span>
                       )}
                     </div>
@@ -302,7 +298,7 @@ export default function AIProfitPredPage() {
                       <span className="input-group-text bg-light">Qtl</span>
                     </div>
                     <small className="text-muted">
-                      {fieldIntel?.yield_source || (language === 'mr' ? 'क्षेत्रफळानुसार अंदाज' : 'Based on land area and historical yield')}
+                      {fieldIntel?.yield_source || t('profitPrediction.yieldHint')}
                     </small>
                   </div>
 
@@ -310,7 +306,7 @@ export default function AIProfitPredPage() {
                   <div className="mb-4">
                     <div className="d-flex justify-content-between align-items-center mb-1">
                       <label className="form-label fw-semibold small mb-0">
-                        {language === 'mr' ? 'बाजार भाव प्रति क्विंटल (मंडी दर) *' : 'Current Market Price (APMC Rate) *'}
+                        {t('profitPrediction.currentMarketPrice')}
                       </label>
                       {fieldIntel && (
                         <span className="badge bg-primary-subtle text-primary border small">
@@ -335,8 +331,8 @@ export default function AIProfitPredPage() {
                     </div>
                     <small className="text-muted">
                       {fieldIntel
-                        ? `${language === 'mr' ? 'किमान:' : 'Range:'} ₹${fieldIntel.market_min_price} - ₹${fieldIntel.market_max_price} / Qtl`
-                        : (language === 'mr' ? 'APMC मंडी किंमत प्रति क्विंटल' : 'APMC Mandi rate per quintal')}
+                        ? `${t('profitPrediction.range')} ₹${fieldIntel.market_min_price} - ₹${fieldIntel.market_max_price} / Qtl`
+                        : t('profitPrediction.mandiRateHint')}
                     </small>
                   </div>
 
@@ -345,7 +341,7 @@ export default function AIProfitPredPage() {
                     <div className={`alert ${computedProfit >= 0 ? 'alert-success' : 'alert-danger'} py-3 mb-4`}>
                       <div className="d-flex justify-content-between align-items-center">
                         <span className="fw-semibold">
-                          {language === 'mr' ? 'अंदाजित निव्वळ नफा:' : 'Projected Net Profit:'}
+                          {t('profitPrediction.projectedNetProfit')}
                         </span>
                         <span className="fw-bold fs-5">
                           {computedProfit >= 0 ? '+' : ''}₹{computedProfit.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
@@ -365,12 +361,12 @@ export default function AIProfitPredPage() {
                     {loading ? (
                       <>
                         <span className="spinner-border spinner-border-sm me-2"></span>
-                        {language === 'mr' ? 'अंदाज काढत आहे...' : 'Forecasting Profit...'}
+                        {t('profitPrediction.forecasting')}
                       </>
                     ) : (
                       <>
                         <i className="bi bi-graph-up-arrow me-2"></i>
-                        {language === 'mr' ? 'बाजार भावावरून नफा अंदाज काढा' : 'Forecast Profit from Market Price'}
+                        {t('profitPrediction.forecastProfitBtn')}
                       </>
                     )}
                   </button>
@@ -388,28 +384,26 @@ export default function AIProfitPredPage() {
                 >
                   <span className={`badge float-end ${result.predicted_profit >= 0 ? 'bg-success' : 'bg-danger'}`}>
                     {result.predicted_profit >= 0
-                      ? (language === 'mr' ? 'नफ्याची संधी' : 'Profitable Yield')
-                      : (language === 'mr' ? 'तोटा धोका' : 'Loss Warning')}
+                      ? t('profitPrediction.profitableYield')
+                      : t('profitPrediction.lossWarning')}
                   </span>
                   <h5 className="fw-bold mb-0 text-dark">
                     <i className="bi bi-pie-chart-fill me-2 text-success"></i>
-                    {language === 'mr' ? 'नफा अंदाज निष्कर्ष' : 'AI Profit Forecast Analysis'}
+                    {t('profitPrediction.forecastAnalysis')}
                   </h5>
                 </div>
                 <div className="card-body p-4">
                   {/* Big profit number */}
                   <div className="text-center py-3">
                     <small className="text-muted text-uppercase fw-semibold d-block mb-1">
-                      {language === 'mr' ? 'अंदाजित निव्वळ नफा' : 'Predicted Net Profit Realization'}
+                      {t('profitPrediction.projectedNetMargin')}
                     </small>
                     <h1 className={`display-4 fw-bold ${result.predicted_profit >= 0 ? 'text-success' : 'text-danger'} mb-1`}>
                       {result.predicted_profit >= 0 ? '+' : ''}₹{Number(result.predicted_profit).toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                     </h1>
                     {result.estimated_cost > 0 && (
                       <div className="text-muted small">
-                        {language === 'mr'
-                          ? `गुंतवणुकीवर परतावा (ROI): ${((result.predicted_profit / result.estimated_cost) * 100).toFixed(1)}%`
-                          : `Return on Investment (ROI): ${((result.predicted_profit / result.estimated_cost) * 100).toFixed(1)}%`}
+                        {t('common.roi', { percent: ((result.predicted_profit / result.estimated_cost) * 100).toFixed(1) })}
                       </div>
                     )}
                   </div>
@@ -420,13 +414,13 @@ export default function AIProfitPredPage() {
                   <div className="row g-3">
                     <div className="col-sm-4">
                       <div className="p-3 bg-danger-subtle rounded-3 text-center">
-                        <small className="text-muted d-block">{language === 'mr' ? 'एकूण खर्च' : 'Total Field Cost'}</small>
+                        <small className="text-muted d-block">{t('profitPrediction.totalInputCost')}</small>
                         <strong className="text-danger">₹{Number(result.estimated_cost).toLocaleString('en-IN')}</strong>
                       </div>
                     </div>
                     <div className="col-sm-4">
                       <div className="p-3 bg-primary-subtle rounded-3 text-center">
-                        <small className="text-muted d-block">{language === 'mr' ? 'अंदाजित महसूल' : 'Projected Revenue'}</small>
+                        <small className="text-muted d-block">{t('profitPrediction.estimatedRevenue')}</small>
                         <strong className="text-primary">
                           ₹{(result.predicted_yield * result.estimated_selling_price).toLocaleString('en-IN', { minimumFractionDigits: 0 })}
                         </strong>
@@ -442,13 +436,13 @@ export default function AIProfitPredPage() {
                     </div>
                     <div className="col-sm-6">
                       <div className="p-3 bg-light rounded-3">
-                        <small className="text-muted d-block">{language === 'mr' ? 'अपेक्षित उत्पादन' : 'Expected Yield'}</small>
+                        <small className="text-muted d-block">{t('profitPrediction.expectedYield')}</small>
                         <strong>{result.predicted_yield} Qtl</strong>
                       </div>
                     </div>
                     <div className="col-sm-6">
                       <div className="p-3 bg-light rounded-3">
-                        <small className="text-muted d-block">{language === 'mr' ? 'मंडी बाजार भाव' : 'APMC Market Rate'}</small>
+                        <small className="text-muted d-block">{t('profitPrediction.apmcRate')}</small>
                         <strong>₹{Number(result.estimated_selling_price).toLocaleString('en-IN')} / Qtl</strong>
                       </div>
                     </div>
@@ -456,14 +450,10 @@ export default function AIProfitPredPage() {
 
                   <div className={`alert ${result.predicted_profit >= 0 ? 'alert-success' : 'alert-warning'} mt-3 small mb-0`}>
                     <i className="bi bi-lightbulb-fill me-2"></i>
-                    <strong>{language === 'mr' ? 'शेतकरी सल्ला:' : 'Farmer Advisory:'}</strong>{' '}
+                    <strong>{t('profitPrediction.farmerAdvisory')}</strong>{' '}
                     {result.predicted_profit >= 0
-                      ? (language === 'mr'
-                        ? `सध्याच्या ₹${Number(result.estimated_selling_price).toLocaleString('en-IN')}/क्विंटल भावानुसार हे पीक फायदेशीर ठरेल. काढणीनंतर थेट APMC मंडीमध्ये विक्री करावी.`
-                        : `At the prevailing ₹${Number(result.estimated_selling_price).toLocaleString('en-IN')}/quintal APMC rate, this crop yields strong margins. Good time to finalize harvest dispatch.`)
-                      : (language === 'mr'
-                        ? 'सध्याचा बाजार भाव किंवा वाढलेला खर्च पाहता नफा कमी होऊ शकतो. शासकीय हमीभाव (MSP) किंवा स्थानिक व्यापारी दरांचा शोध घ्या.'
-                        : 'Cultivation cost exceeds market realization at current price. Explore storage or MSP procurement options.')}
+                      ? t('profitPrediction.profitableAdvisory', { price: Number(result.estimated_selling_price).toLocaleString('en-IN') })
+                      : t('profitPrediction.lossAdvisory')}
                   </div>
                 </div>
               </div>
@@ -472,12 +462,10 @@ export default function AIProfitPredPage() {
                 style={{ minHeight: 220 }}>
                 <i className="bi bi-currency-exchange fs-1 text-success opacity-50 mb-3"></i>
                 <h5 className="fw-semibold text-dark">
-                  {language === 'mr' ? 'नफा अंदाज पाहण्यासाठी तयार' : 'Ready to Forecast Agricultural Profits'}
+                  {t('profitPrediction.readyToForecast')}
                 </h5>
                 <p className="small mb-0" style={{ maxWidth: '380px' }}>
-                  {language === 'mr'
-                    ? 'डाव्या बाजूला शेतातील पीक निवडा. प्रणाली आपोआप प्रत्यक्ष खर्च आणि बाजार भाव मिळवून नफा अंदाज सादर करेल.'
-                    : 'Select a crop from your fields. The system automatically pulls your field expense records and current market price to forecast returns.'}
+                  {t('profitPrediction.readyToForecastHint')}
                 </p>
               </div>
             )}
@@ -488,11 +476,11 @@ export default function AIProfitPredPage() {
                 <div className="card-header bg-white border-bottom py-3 d-flex justify-content-between align-items-center">
                   <h6 className="fw-bold text-dark mb-0">
                     <i className="bi bi-shop me-2 text-primary"></i>
-                    {language === 'mr' ? 'सध्याचे APMC मंडी बाजार भाव' : 'Live APMC Market Rates (Mandi Prices)'}
+                    {t('profitPrediction.mandiWholesalePrices')}
                   </h6>
                   <span className="badge bg-success-subtle text-success">
                     <i className="bi bi-check-circle-fill me-1"></i>
-                    {language === 'mr' ? 'अद्ययावत' : 'Updated Today'}
+                    {t('profitPrediction.liveApmcFeed')}
                   </span>
                 </div>
                 <div className="card-body p-0">
@@ -500,10 +488,10 @@ export default function AIProfitPredPage() {
                     <table className="table table-hover align-middle mb-0 small">
                       <thead className="table-light">
                         <tr>
-                          <th>{language === 'mr' ? 'धान्य / पीक' : 'Grain / Crop'}</th>
-                          <th>{language === 'mr' ? 'बाजार (APMC)' : 'Market (APMC)'}</th>
-                          <th className="text-end">{language === 'mr' ? 'दर (₹/क्विंटल)' : 'Modal Price (₹/Qtl)'}</th>
-                          <th className="text-end">{language === 'mr' ? 'किमान - कमाल' : 'Min - Max'}</th>
+                          <th>{t('profitPrediction.grainCrop')}</th>
+                          <th>{t('profitPrediction.market')}</th>
+                          <th className="text-end">{t('profitPrediction.modalPrice')} (₹/Qtl)</th>
+                          <th className="text-end">{t('profitPrediction.minPrice')} - {t('profitPrediction.maxPrice')}</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -529,24 +517,24 @@ export default function AIProfitPredPage() {
                   <i className="bi bi-clock-history me-2 text-secondary"></i>
                   {t('profitHistory')}
                 </h6>
-                <span className="badge bg-light text-muted border">{history.length} {language === 'mr' ? 'नोंदी' : 'Records'}</span>
+                <span className="badge bg-light text-muted border">{history.length} {t('profitPrediction.records')}</span>
               </div>
               <div className="card-body p-0">
                 {history.length === 0 ? (
                   <div className="text-center py-4 text-muted small">
-                    {language === 'mr' ? 'अजून कोणतेही अंदाज नाहीत.' : 'No past predictions yet. Run your first calculation!'}
+                    {t('profitPrediction.noHistory')}
                   </div>
                 ) : (
                   <div className="table-responsive">
                     <table className="table table-hover align-middle mb-0 small">
                       <thead className="table-light">
                         <tr>
-                          <th>{language === 'mr' ? 'तारीख' : 'Date'}</th>
-                          <th>{language === 'mr' ? 'पीक' : 'Crop'}</th>
-                          <th className="text-end">{language === 'mr' ? 'खर्च (₹)' : 'Cost (₹)'}</th>
-                          <th className="text-end">{language === 'mr' ? 'उत्पन्न' : 'Yield'}</th>
-                          <th className="text-end">{language === 'mr' ? 'भाव (₹)' : 'Price (₹)'}</th>
-                          <th className="text-end">{language === 'mr' ? 'नफा (₹)' : 'Profit (₹)'}</th>
+                          <th>{t('common.date')}</th>
+                          <th>{t('cropName')}</th>
+                          <th className="text-end">{t('common.total')} {t('reports.cost')} (₹)</th>
+                          <th className="text-end">{t('profitPrediction.expectedYield')}</th>
+                          <th className="text-end">{t('common.price')}</th>
+                          <th className="text-end">{t('netProfit')} (₹)</th>
                         </tr>
                       </thead>
                       <tbody>

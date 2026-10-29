@@ -4,14 +4,12 @@ import { useLanguage } from '../../context/LanguageContext';
 
 /**
  * Harvest & Sales Management Page
- * 
- * , 
  */
 
 const UNIT_LABELS = { Quintals: 'Qtl', Tonnes: 'T', Bags: 'Bags', Kgs: 'Kg' };
 
 export default function HarvestSalesPage() {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
   const [crops, setCrops] = useState([]);
   const [harvests, setHarvests] = useState([]);
   const [sales, setSales] = useState([]);
@@ -84,7 +82,7 @@ export default function HarvestSalesPage() {
     setError('');
     try {
       await createHarvest({ ...harvestForm, crop: parseInt(harvestForm.crop), quantity_harvested: parseFloat(harvestForm.quantity_harvested) });
-      setSuccess(language === 'mr' ? '✅ काढणी नोंद जोडली गेली.' : '✅ Harvest record added.');
+      setSuccess(t('harvestSales.harvestAdded'));
       setShowHarvestModal(false);
       const [hd, sd] = await Promise.all([getHarvests(), getSales()]);
       setHarvests(hd);
@@ -97,13 +95,12 @@ export default function HarvestSalesPage() {
   }
 
   async function handleDeleteHarvest(id) {
-    const confirmMsg = language === 'mr' 
-      ? 'ही काढणी नोंद हटवायची का? याशी संबंधित सर्व विक्री नोंदी देखील हटवल्या जातील.' 
-      : 'Delete this harvest? All related sales will also be deleted.';
+    const crop = getCropName(harvests.find((h) => h.id === id)?.crop);
+    const confirmMsg = t('harvestSales.deleteHarvestConfirm', { crop });
     if (!window.confirm(confirmMsg)) return;
     try {
       await deleteHarvest(id);
-      setSuccess(language === 'mr' ? '🗑️ काढणी हटवली.' : '🗑️ Harvest deleted.');
+      setSuccess(t('harvestSales.harvestDeleted'));
       const [hd, sd] = await Promise.all([getHarvests(), getSales()]);
       setHarvests(hd);
       setSales(sd);
@@ -136,7 +133,7 @@ export default function HarvestSalesPage() {
         quantity_sold: parseFloat(saleForm.quantity_sold),
         selling_price: parseFloat(saleForm.selling_price),
       });
-      setSuccess(language === 'mr' ? '✅ विक्री नोंद यशस्वीरित्या झाली.' : '✅ Sale recorded successfully.');
+      setSuccess(t('harvestSales.saleRecorded'));
       setShowSaleModal(false);
       const [hd, sd] = await Promise.all([getHarvests(), getSales()]);
       setHarvests(hd);
@@ -149,11 +146,11 @@ export default function HarvestSalesPage() {
   }
 
   async function handleDeleteSale(id) {
-    const confirmMsg = language === 'mr' ? 'ही विक्री नोंद हटवायची का?' : 'Delete this sale record?';
+    const confirmMsg = t('harvestSales.deleteSaleConfirm');
     if (!window.confirm(confirmMsg)) return;
     try {
       await deleteSale(id);
-      setSuccess(language === 'mr' ? '🗑️ विक्री हटवली.' : '🗑️ Sale deleted.');
+      setSuccess(t('harvestSales.saleDeleted'));
       const sd = await getSales();
       setSales(sd);
     } catch (e) {
@@ -187,14 +184,14 @@ export default function HarvestSalesPage() {
       {/* Crop Filter */}
       <div className="card border-0 shadow-sm mb-3">
         <div className="card-body py-2 d-flex align-items-center gap-3 flex-wrap">
-          <label className="form-label mb-0 fw-semibold">{language === 'mr' ? 'पीक निवडा:' : 'Filter by Crop:'}</label>
+          <label className="form-label mb-0 fw-semibold">{t('harvestSales.filterByCrop')}</label>
           <select className="form-select form-select-sm" style={{ maxWidth: 220 }} value={selectedCrop} onChange={(e) => setSelectedCrop(e.target.value)}>
             <option value="">{t('allCrops')}</option>
             {crops.map((c) => <option key={c.id} value={c.id}>{c.crop_name} ({c.season})</option>)}
           </select>
           <div className="ms-auto d-flex gap-3 flex-wrap">
             <span className="badge bg-success-subtle text-success fs-6 px-3 py-2">
-              🌾 {t('totalHarvested')}: {totalHarvested.toFixed(2)} {language === 'mr' ? 'एकके' : 'units'}
+              🌾 {t('totalHarvested')}: {totalHarvested.toFixed(2)} {t('common.units')}
             </span>
             <span className="badge bg-primary-subtle text-primary fs-6 px-3 py-2">
               💰 {t('totalRevenueBadge')}: ₹{totalSaleRevenue.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
@@ -207,12 +204,12 @@ export default function HarvestSalesPage() {
       <ul className="nav nav-tabs mb-0 border-bottom-0">
         <li className="nav-item">
           <button className={`nav-link fw-semibold ${activeTab === 'harvests' ? 'active text-success' : 'text-muted'}`} onClick={() => setActiveTab('harvests')}>
-            <i className="bi bi-basket me-1"></i>{language === 'mr' ? 'काढणी' : 'Harvests'} ({filteredHarvests.length})
+            <i className="bi bi-basket me-1"></i>{t('harvestSales.harvests')} ({filteredHarvests.length})
           </button>
         </li>
         <li className="nav-item">
           <button className={`nav-link fw-semibold ${activeTab === 'sales' ? 'active text-success' : 'text-muted'}`} onClick={() => setActiveTab('sales')}>
-            <i className="bi bi-bag-check me-1"></i>{language === 'mr' ? 'विक्री' : 'Sales'} ({filteredSales.length})
+            <i className="bi bi-bag-check me-1"></i>{t('harvestSales.sales')} ({filteredSales.length})
           </button>
         </li>
       </ul>
@@ -225,7 +222,7 @@ export default function HarvestSalesPage() {
             filteredHarvests.length === 0 ? (
               <div className="text-center py-5 text-muted">
                 <i className="bi bi-basket fs-1 d-block mb-2"></i>
-                {language === 'mr' ? 'अद्याप कोणतीही काढणी नोंद नाही.' : 'No harvests yet. Click Log Harvest to record produce.'}
+                {t('harvestSales.noHarvestsYet')}
               </div>
             ) : (
               <div className="table-responsive">
@@ -233,11 +230,11 @@ export default function HarvestSalesPage() {
                   <thead className="table-light">
                     <tr>
                       <th>#</th>
-                      <th>{language === 'mr' ? 'पीक' : 'Crop'}</th>
+                      <th>{t('cropName')}</th>
                       <th>{t('harvestDate')}</th>
                       <th>{t('quantity')}</th>
                       <th>{t('unit')}</th>
-                      <th>{language === 'mr' ? 'विक्री संख्या' : 'Sales Count'}</th>
+                      <th>{t('harvestSales.salesCount')}</th>
                       <th className="text-center">{t('actions')}</th>
                     </tr>
                   </thead>
@@ -251,7 +248,7 @@ export default function HarvestSalesPage() {
                         <td><span className="badge bg-success-subtle text-success">{h.unit}</span></td>
                         <td>
                           <span className="badge bg-primary-subtle text-primary">
-                            {h.sales?.length || 0} {language === 'mr' ? 'विक्री' : 'sale(s)'}
+                            {h.sales?.length || 0} {t('harvestSales.sales')}
                           </span>
                         </td>
                         <td className="text-center">
@@ -272,7 +269,7 @@ export default function HarvestSalesPage() {
             filteredSales.length === 0 ? (
               <div className="text-center py-5 text-muted">
                 <i className="bi bi-bag-x fs-1 d-block mb-2"></i>
-                {language === 'mr' ? 'अद्याप कोणतीही विक्री नोंद नाही.' : 'No sales recorded yet. Click Record Sale to add market transactions.'}
+                {t('harvestSales.noSalesYet')}
               </div>
             ) : (
               <div className="table-responsive">
@@ -280,12 +277,12 @@ export default function HarvestSalesPage() {
                   <thead className="table-light">
                     <tr>
                       <th>#</th>
-                      <th>{language === 'mr' ? 'काढणी (पीक)' : 'Harvest (Crop)'}</th>
+                      <th>{t('harvestSales.harvestCrop')}</th>
                       <th>{t('buyerName')}</th>
                       <th>{t('saleDate')}</th>
-                      <th>{language === 'mr' ? 'विक्री प्रमाण' : 'Qty Sold'}</th>
+                      <th>{t('harvestSales.qtySold')}</th>
                       <th className="text-end">{t('pricePer')} (₹)</th>
-                      <th className="text-end">{language === 'mr' ? 'एकूण रक्कम (₹)' : 'Total (₹)'}</th>
+                      <th className="text-end">{t('harvestSales.totalAmount')}</th>
                       <th className="text-center">{t('delete')}</th>
                     </tr>
                   </thead>
@@ -335,7 +332,7 @@ export default function HarvestSalesPage() {
                   {error && <div className="alert alert-danger py-2">{error}</div>}
                   <div className="row g-3">
                     <div className="col-12">
-                      <label className="form-label fw-semibold">{language === 'mr' ? 'पीक *' : 'Crop *'}</label>
+                      <label className="form-label fw-semibold">{t('harvestSales.cropRequired')}</label>
                       <select name="crop" value={harvestForm.crop} onChange={(e) => setHarvestForm((p) => ({ ...p, crop: e.target.value }))} className="form-select" required>
                         {crops.map((c) => <option key={c.id} value={c.id}>{c.crop_name} ({c.season})</option>)}
                       </select>
@@ -351,7 +348,7 @@ export default function HarvestSalesPage() {
                       </select>
                     </div>
                     <div className="col-12">
-                      <label className="form-label fw-semibold">{language === 'mr' ? 'काढणी प्रमाण *' : 'Quantity Harvested *'}</label>
+                      <label className="form-label fw-semibold">{t('harvestSales.quantityHarvested')}</label>
                       <div className="input-group">
                         <input type="number" value={harvestForm.quantity_harvested} onChange={(e) => setHarvestForm((p) => ({ ...p, quantity_harvested: e.target.value }))} className="form-control" placeholder="e.g. 40" min="0" step="0.01" required />
                         <span className="input-group-text">{UNIT_LABELS[harvestForm.unit]}</span>
@@ -386,9 +383,9 @@ export default function HarvestSalesPage() {
                   {error && <div className="alert alert-danger py-2">{error}</div>}
                   <div className="row g-3">
                     <div className="col-12">
-                      <label className="form-label fw-semibold">{language === 'mr' ? 'काढणी बॅच *' : 'Harvest Batch *'}</label>
+                      <label className="form-label fw-semibold">{t('harvestSales.harvestBatch')}</label>
                       <select value={saleForm.harvest} onChange={(e) => setSaleForm((p) => ({ ...p, harvest: e.target.value }))} className="form-select" required>
-                        <option value="">{language === 'mr' ? 'काढणी निवडा...' : 'Select harvest...'}</option>
+                        <option value="">{t('harvestSales.selectHarvest')}</option>
                         {(selectedCrop ? filteredHarvests : harvests).map((h) => (
                           <option key={h.id} value={h.id}>{getHarvestLabel(h.id)}</option>
                         ))}
@@ -396,14 +393,14 @@ export default function HarvestSalesPage() {
                     </div>
                     <div className="col-md-6">
                       <label className="form-label fw-semibold">{t('buyerName')} *</label>
-                      <input value={saleForm.buyer_name} onChange={(e) => setSaleForm((p) => ({ ...p, buyer_name: e.target.value }))} className="form-control" placeholder={language === 'mr' ? 'उदा. APMC सांगली / व्यापारी' : 'e.g. APMC Sangli / Trader'} required />
+                      <input value={saleForm.buyer_name} onChange={(e) => setSaleForm((p) => ({ ...p, buyer_name: e.target.value }))} className="form-control" placeholder={t('harvestSales.buyerPlaceholder')} required />
                     </div>
                     <div className="col-md-6">
                       <label className="form-label fw-semibold">{t('saleDate')} *</label>
                       <input type="date" value={saleForm.sale_date} onChange={(e) => setSaleForm((p) => ({ ...p, sale_date: e.target.value }))} className="form-control" required />
                     </div>
                     <div className="col-md-6">
-                      <label className="form-label fw-semibold">{language === 'mr' ? 'विक्री प्रमाण *' : 'Quantity Sold *'}</label>
+                      <label className="form-label fw-semibold">{t('harvestSales.quantitySold')}</label>
                       <input type="number" value={saleForm.quantity_sold} onChange={(e) => setSaleForm((p) => ({ ...p, quantity_sold: e.target.value }))} className="form-control" placeholder="e.g. 30" min="0" step="0.01" required />
                     </div>
                     <div className="col-md-6">
@@ -416,7 +413,7 @@ export default function HarvestSalesPage() {
                     {saleForm.quantity_sold && saleForm.selling_price && (
                       <div className="col-12">
                         <div className="alert alert-success py-2 mb-0">
-                          <strong>{language === 'mr' ? 'एकूण रक्कम = ' : 'Total = '}₹{(parseFloat(saleForm.quantity_sold) * parseFloat(saleForm.selling_price)).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</strong>
+                          <strong>{t('common.total')} = ₹{(parseFloat(saleForm.quantity_sold) * parseFloat(saleForm.selling_price)).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</strong>
                         </div>
                       </div>
                     )}

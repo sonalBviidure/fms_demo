@@ -9,7 +9,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { login } = useAuth();
-  const { t, language, toggleLanguage } = useLanguage();
+  const { t, toggleLanguage } = useLanguage();
 
   const [credentials, setCredentials] = useState({
     username: '',
@@ -34,7 +34,7 @@ const LoginPage = () => {
       await login(credentials);
       navigate(from, { replace: true });
     } catch (err) {
-      setError(err.message || (language === 'mr' ? 'लॉगिन अयशस्वी. कृपया तपशील तपासा.' : 'Unable to sign in. Please check your credentials.'));
+      setError(err.message || t('auth.loginFailed'));
     } finally {
       setIsSubmitting(false);
     }
@@ -52,25 +52,25 @@ const LoginPage = () => {
             <div className="d-flex justify-content-between align-items-center mb-3">
               <Link to="/" className="text-decoration-none d-inline-flex align-items-center gap-2 text-white">
                 <i className="bi bi-tree-fill text-warning fs-3"></i>
-                <span className="fs-5 fw-bold">Farm Management System</span>
+                <span className="fs-5 fw-bold">{t('navigation.brand')}</span>
               </Link>
               <button
                 className="lang-toggle-btn"
                 onClick={toggleLanguage}
-                title="Switch Language / भाषा बदला"
+                title={t('navigation.switchLanguage')}
               >
                 <i className="bi bi-translate"></i>
-                {language === 'en' ? '🇮🇳 मराठी' : '🇬🇧 English'}
+                {t('navigation.langButtonText')}
               </button>
             </div>
 
             <div className="card border-0 shadow-lg rounded-4 p-4 p-sm-5 bg-white">
               <div className="d-flex align-items-center justify-content-between mb-4">
                 <h4 className="fw-bold text-dark mb-0">
-                  {language === 'mr' ? 'शेतकरी प्रवेश' : 'Farmer Sign In'}
+                  {t('auth.signInTitle')}
                 </h4>
                 <span className="badge bg-success-subtle text-success border border-success-subtle">
-                  <i className="bi bi-shield-lock me-1"></i>Secure Auth
+                  <i className="bi bi-shield-lock me-1"></i>{t('auth.secureAuth')}
                 </span>
               </div>
 
@@ -84,7 +84,7 @@ const LoginPage = () => {
               <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                   <label className="form-label small fw-semibold text-secondary">
-                    {language === 'mr' ? 'फोन नंबर किंवा वापरकर्ता नाव' : 'Phone Number or Username'}
+                    {t('auth.phoneOrUsername')}
                   </label>
                   <div className="input-group">
                     <span className="input-group-text bg-light text-muted border-end-0">
@@ -96,7 +96,7 @@ const LoginPage = () => {
                       name="username"
                       value={credentials.username}
                       onChange={handleChange}
-                      placeholder={language === 'mr' ? 'उदा. 9876543210 किंवा नाव' : 'e.g. 9876543210 or username'}
+                      placeholder={t('auth.usernamePlaceholder')}
                       required
                     />
                   </div>
@@ -105,7 +105,7 @@ const LoginPage = () => {
                 <div className="mb-4">
                   <div className="d-flex justify-content-between align-items-center mb-1">
                     <label className="form-label small fw-semibold text-secondary mb-0">
-                      {language === 'mr' ? 'संकेतशब्द (पासवर्ड)' : 'Password'}
+                      {t('auth.password')}
                     </label>
                   </div>
                   <div className="input-group">
@@ -118,7 +118,7 @@ const LoginPage = () => {
                       name="password"
                       value={credentials.password}
                       onChange={handleChange}
-                      placeholder={language === 'mr' ? 'संकेतशब्द टाका' : 'Enter your password'}
+                      placeholder={t('auth.passwordPlaceholder')}
                       required
                     />
                   </div>
@@ -132,12 +132,12 @@ const LoginPage = () => {
                   {isSubmitting ? (
                     <>
                       <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                      <span>{language === 'mr' ? 'प्रवेश करत आहे...' : 'Signing in...'}</span>
+                      <span>{t('auth.signingIn')}</span>
                     </>
                   ) : (
                     <>
                       <i className="bi bi-box-arrow-in-right"></i>
-                      <span>{language === 'mr' ? 'डॅशबोर्डमध्ये प्रवेश करा' : 'Sign In to Dashboard'}</span>
+                      <span>{t('auth.signIn')}</span>
                     </>
                   )}
                 </button>
@@ -145,21 +145,21 @@ const LoginPage = () => {
 
               <div className="text-center mt-3 pt-3 border-top">
                 <p className="small text-muted mb-1">
-                  {language === 'mr' ? 'नवीन शेतकरी?' : 'New farmer?'}{' '}
+                  {t('auth.noAccount')}{' '}
                   <Link to="/register" className="text-success fw-semibold text-decoration-none">
-                    {language === 'mr' ? 'नवीन खाते तयार करा' : 'Create an Account'}
+                    {t('auth.createAccount')}
                   </Link>
                 </p>
                 <Link to="/" className="small text-secondary text-decoration-none">
                   <i className="bi bi-arrow-left me-1"></i>
-                  {language === 'mr' ? 'मुख्य पृष्ठावर जा' : 'Back to Home'}
+                  {t('auth.backToHome')}
                 </Link>
               </div>
             </div>
 
             <div className="text-center mt-4">
               <small className="text-white-50">
-                Farm Management System &bull; Intelligent Agricultural Advisory Platform
+                {t('navigation.brand')} &bull; {t('common.smartAgriAdvisory')}
               </small>
             </div>
           </div>

@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { getCropComparisonReport, recalculateFinancial, getCrops } from '../../services/api';
+import { getFinancialSummaries, getCrops, recalculateFinancial } from '../../services/api';
 import { useLanguage } from '../../context/LanguageContext';
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
   BarElement,
-  Title,
+  ArcElement,
   Tooltip,
   Legend,
-  ArcElement
 } from 'chart.js';
 import { Bar, Doughnut } from 'react-chartjs-2';
 
@@ -17,35 +16,35 @@ ChartJS.register(
   CategoryScale,
   LinearScale,
   BarElement,
-  Title,
+  ArcElement,
   Tooltip,
-  Legend,
-  ArcElement
+  Legend
 );
 
-export default function ReportsPage() {
-  const { t, language } = useLanguage();
+/**
+ * Financial Reports Page
+ */
 
-  const [crops, setCrops] = useState([]);
+export default function ReportsPage() {
+  const { t } = useLanguage();
   const [report, setReport] = useState([]);
+  const [crops, setCrops] = useState([]);
   const [loading, setLoading] = useState(true);
   const [recalculating, setRecalculating] = useState(null);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-  useEffect(() => {
-    loadData();
-  }, []);
+  useEffect(() => { loadData(); }, []);
 
   async function loadData() {
     setLoading(true);
     try {
-      const [cropRes, reportRes] = await Promise.all([
+      const [finData, cropData] = await Promise.all([
+        getFinancialSummaries(),
         getCrops(),
-        getCropComparisonReport(),
       ]);
-      setCrops(cropRes);
-      setReport(reportRes.crop_comparison || []);
+      setReport(finData);
+      setCrops(cropData);
     } catch (e) {
       setError(e.message);
     } finally {
@@ -59,7 +58,7 @@ export default function ReportsPage() {
     setError('');
     try {
       await recalculateFinancial(cropId);
-      setSuccess(`✅ "${cropName}" ${language === 'mr' ? 'साठी आर्थिक विश्लेषण पुन्हा मोजले.' : 'financial analysis recalculated.'}`);
+      setSuccess(t('reports.analysisRecalculated', { crop: cropName }));
       await loadData();
     } catch (e) {
       setError(e.message);
@@ -80,7 +79,7 @@ export default function ReportsPage() {
           <h2 className="fw-bold text-success mb-0">
             <i className="bi bi-bar-chart-line me-2"></i>{t('financialReports')}
           </h2>
-          <small className="text-muted">Phase 6 &amp; 7 —  · </small>
+          <p className="text-muted mb-0 small">{t('reports.subtitle')}</p>
         </div>
         <div className="d-flex gap-2">
           {report.length > 0 && (
@@ -91,7 +90,7 @@ export default function ReportsPage() {
                 title="Print or Save as PDF"
               >
                 <i className="bi bi-printer me-1"></i>
-                {language === 'mr' ? 'प्रिंट / PDF' : 'Print / PDF'}
+                {t('common.printPdf')}
               </button>
               <button
                 className="btn btn-outline-success"
@@ -119,7 +118,7 @@ export default function ReportsPage() {
                 }}
               >
                 <i className="bi bi-file-earmark-spreadsheet me-1"></i>
-                {language === 'mr' ? 'CSV डाउनलोड' : 'Export CSV'}
+                {t('common.exportCsv')}
               </button>
             </>
           )}
@@ -175,7 +174,7 @@ export default function ReportsPage() {
         </div>
       </div>
 
-      {/* Chart.js Interactive Visualizations (Phase 7) */}
+      {/* Chart.js Interactive Visualizations */}
       {report.length > 0 && (
         <div className="row g-4 mb-4">
           <div className="col-lg-8">
@@ -183,7 +182,7 @@ export default function ReportsPage() {
               <div className="card-header bg-white border-bottom">
                 <h5 className="mb-0 fw-semibold text-dark">
                   <i className="bi bi-bar-chart-fill me-2 text-success"></i>
-                  {language === 'mr' ? 'पीकनिहाय महसूल विरुद्ध खर्च चार्ट (Chart.js)' : 'Crop Revenue vs Cost Chart (Chart.js)'}
+                  {t('reports.cropRevenueVsCostChart')}
                 </h5>
               </div>
               <div className="card-body">
@@ -193,21 +192,21 @@ export default function ReportsPage() {
                       labels: report.map(r => r.crop_name),
                       datasets: [
                         {
-                          label: language === 'mr' ? 'महसूल (₹)' : 'Revenue (₹)',
+                          label: t('reports.revenueRupees'),
                           data: report.map(r => r.total_revenue),
                           backgroundColor: 'rgba(25, 135, 84, 0.75)',
                           borderColor: 'rgb(25, 135, 84)',
                           borderWidth: 1,
                         },
                         {
-                          label: language === 'mr' ? 'खर्च (₹)' : 'Cost (₹)',
+                          label: t('reports.costRupees'),
                           data: report.map(r => r.total_cost),
                           backgroundColor: 'rgba(220, 53, 69, 0.75)',
                           borderColor: 'rgb(220, 53, 69)',
                           borderWidth: 1,
                         },
                         {
-                          label: language === 'mr' ? 'नफा/तोटा (₹)' : 'Profit/Loss (₹)',
+                          label: t('reports.profitLossRupees'),
                           data: report.map(r => r.profit_loss),
                           backgroundColor: 'rgba(13, 110, 253, 0.75)',
                           borderColor: 'rgb(13, 110, 253)',
@@ -240,7 +239,7 @@ export default function ReportsPage() {
               <div className="card-header bg-white border-bottom">
                 <h5 className="mb-0 fw-semibold text-dark">
                   <i className="bi bi-pie-chart-fill me-2 text-primary"></i>
-                  {language === 'mr' ? 'एकूण आर्थिक हिस्सा' : 'Financial Distribution'}
+                  {t('reports.financialDistribution')}
                 </h5>
               </div>
               <div className="card-body d-flex flex-column align-items-center justify-content-center">
@@ -248,8 +247,8 @@ export default function ReportsPage() {
                   <Doughnut
                     data={{
                       labels: [
-                        language === 'mr' ? 'खर्च' : 'Cost',
-                        language === 'mr' ? 'नफा' : 'Net Profit'
+                        t('reports.cost'),
+                        t('reports.netProfit')
                       ],
                       datasets: [{
                         data: [totalCost, Math.max(0, netProfit)],
@@ -268,7 +267,7 @@ export default function ReportsPage() {
                   />
                 </div>
                 <div className="mt-3 text-center small text-muted">
-                  <span>{language === 'mr' ? 'एकूण महसूल' : 'Total Revenue'}: <strong>₹{totalRevenue.toLocaleString('en-IN')}</strong></span>
+                  <span>{t('totalRevenueBadge')}: <strong>₹{totalRevenue.toLocaleString('en-IN')}</strong></span>
                 </div>
               </div>
             </div>
@@ -293,9 +292,7 @@ export default function ReportsPage() {
             <div className="text-center py-5 text-muted">
               <i className="bi bi-clipboard-data fs-1 d-block mb-2"></i>
               <p>
-                {language === 'mr'
-                  ? 'अद्याप आर्थिक माहिती नाही. प्रथम खर्च व विक्री नोंदी भरा, नंतर खालील "पुन्हा गणना" वर क्लिक करा.'
-                  : 'No financial data yet. Add expenses and sales first, then click Recalculate for each crop.'}
+                {t('reports.noFinancialData')}
               </p>
             </div>
           ) : (
@@ -303,12 +300,12 @@ export default function ReportsPage() {
               <table className="table table-hover mb-0">
                 <thead className="table-light">
                   <tr>
-                    <th>{language === 'mr' ? 'पीक' : 'Crop'}</th>
+                    <th>{t('reports.crop')}</th>
                     <th>{t('season')}</th>
                     <th>{t('field')}</th>
                     <th>{t('area')} ({t('acres')})</th>
-                    <th className="text-end">{language === 'mr' ? 'खर्च' : 'Cost'} (₹)</th>
-                    <th className="text-end">{language === 'mr' ? 'महसूल' : 'Revenue'} (₹)</th>
+                    <th className="text-end">{t('reports.cost')} (₹)</th>
+                    <th className="text-end">{t('reports.revenue')} (₹)</th>
                     <th className="text-end">{t('profitLoss')} (₹)</th>
                     <th className="text-end">{t('profitPerAcre')} (₹)</th>
                     <th className="text-center">{t('actions')}</th>
@@ -318,7 +315,7 @@ export default function ReportsPage() {
                   {report.map((row) => (
                     <tr key={row.crop_id}>
                       <td className="fw-semibold">{row.crop_name}{row.variety ? ` (${row.variety})` : ''}</td>
-                      <td><span className="badge bg-success-subtle text-success">{row.season}</span></td>
+                      <td><span className="badge bg-success-subtle text-success">{t(`seasonLabels.${row.season}`, { defaultValue: row.season })}</span></td>
                       <td>{row.field_name}</td>
                       <td>{row.land_area}</td>
                       <td className="text-end text-danger">₹{Number(row.total_cost).toLocaleString('en-IN')}</td>
@@ -355,9 +352,7 @@ export default function ReportsPage() {
         <div className="mt-3">
           <div className="alert alert-info">
             <i className="bi bi-info-circle me-2"></i>
-            {language === 'mr'
-              ? 'आर्थिक विश्लेषणाची गणना करण्यासाठी खालील पिकावर क्लिक करा.'
-              : 'Click below to recalculate financial summary for each crop with recorded expenses & sales.'}
+            {t('reports.recalculateNotice')}
           </div>
           <div className="d-flex gap-2 flex-wrap">
             {crops.map((crop) => (

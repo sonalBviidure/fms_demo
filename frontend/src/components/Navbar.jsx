@@ -6,7 +6,7 @@ import { useLanguage } from '../context/LanguageContext';
 const Navbar = ({ onToggleSidebar }) => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
-  const { t, language, toggleLanguage } = useLanguage();
+  const { t, toggleLanguage } = useLanguage();
 
   const handleSignOut = async () => {
     await logout();
@@ -16,7 +16,7 @@ const Navbar = ({ onToggleSidebar }) => {
   const displayName = user?.full_name || user?.username || 'Farmer';
   const subtitle = user?.location
     ? `${user.location} (${user.total_acres || 0} ${t('acres')})`
-    : 'Active Session';
+    : t('common.activeSession');
 
   return (
     <header className="top-navbar d-flex align-items-center justify-content-between gap-2">
@@ -31,7 +31,7 @@ const Navbar = ({ onToggleSidebar }) => {
         <div className="d-none d-sm-flex align-items-center gap-2">
           <span className="badge bg-success-subtle text-success border border-success-subtle px-2 py-1">
             <i className="bi bi-shield-check me-1"></i>
-            Farm Management System
+            {t('navigation.brand')}
           </span>
         </div>
       </div>
@@ -41,10 +41,10 @@ const Navbar = ({ onToggleSidebar }) => {
         <button
           className="lang-toggle-btn navbar-variant d-none d-md-flex"
           onClick={toggleLanguage}
-          title="Switch Language / भाषा बदला"
+          title={t('navigation.switchLanguage')}
         >
           <i className="bi bi-translate"></i>
-          {language === 'en' ? '🇮🇳 मराठी' : '🇬🇧 English'}
+          {t('navigation.langButtonText')}
         </button>
 
         <div className="text-end d-none d-md-block">
@@ -67,19 +67,19 @@ const Navbar = ({ onToggleSidebar }) => {
               <div className="dropdown-item-text">
                 <div className="fw-bold">{displayName}</div>
                 <small className="text-muted">
-                  {user?.phone ? `+91 ${user.phone}` : 'Farmer Account'}
+                  {user?.phone ? `+91 ${user.phone}` : t('common.farmerAccount')}
                 </small>
               </div>
             </li>
             <li><hr className="dropdown-divider" /></li>
             <li>
               <Link className="dropdown-item" to="/profile">
-                <i className="bi bi-person me-2"></i>{t('profile')}
+                <i className="bi bi-person me-2"></i>{t('navigation.profile')}
               </Link>
             </li>
             <li>
               <Link className="dropdown-item" to="/dashboard">
-                <i className="bi bi-speedometer2 me-2"></i>{t('dashboard')}
+                <i className="bi bi-speedometer2 me-2"></i>{t('navigation.dashboard')}
               </Link>
             </li>
             <li><hr className="dropdown-divider" /></li>
@@ -89,13 +89,13 @@ const Navbar = ({ onToggleSidebar }) => {
                 onClick={toggleLanguage}
               >
                 <i className="bi bi-translate me-2"></i>
-                {language === 'en' ? '🇮🇳 मराठीत बदला' : '🇬🇧 Switch to English'}
+                {t('navigation.switchToOther')}
               </button>
             </li>
             <li><hr className="dropdown-divider" /></li>
             <li>
               <button className="dropdown-item text-danger" onClick={handleSignOut}>
-                <i className="bi bi-box-arrow-right me-2"></i>{t('logout')}
+                <i className="bi bi-box-arrow-right me-2"></i>{t('navigation.logout')}
               </button>
             </li>
           </ul>

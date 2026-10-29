@@ -3,22 +3,20 @@ import { getCrops, getYieldPredictions, submitYieldPrediction } from '../../serv
 import { useLanguage } from '../../context/LanguageContext';
 
 /**
- * AI Crop Yield Prediction Page
- * 
- * , 
+ * Crop Yield Calculator Page
  */
 
 const SOIL_TYPES = ['Black', 'Alluvial', 'Loamy', 'Red', 'Clayey', 'Sandy', 'Other'];
 const SEASONS = ['Kharif', 'Rabi', 'Zaid', 'Annual'];
 const FERTILIZER_OPTIONS = [
-  { value: 'High (Urea + DAP)', labelEn: 'High Dosage (Urea / DAP / Intensive)', labelMr: 'जास्त डोस (युरिया / डीएपी)' },
-  { value: 'Medium (NPK Balanced)', labelEn: 'Medium Dosage (Balanced NPK)', labelMr: 'मध्यम डोस (संतुलित NPK)' },
-  { value: 'Low / Organic Compost', labelEn: 'Low / Organic Bio-fertilizer', labelMr: 'कमी / सेंद्रिय खत' },
-  { value: 'None', labelEn: 'No Fertilizer Applied', labelMr: 'रासायनिक खत नाही' },
+  { value: 'High (Urea + DAP)', key: 'high' },
+  { value: 'Medium (NPK Balanced)', key: 'medium' },
+  { value: 'Low / Organic Compost', key: 'low' },
+  { value: 'None', key: 'none' },
 ];
 
 export default function AIYieldPredPage() {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
 
   const [crops, setCrops] = useState([]);
   const [history, setHistory] = useState([]);
@@ -84,11 +82,11 @@ export default function AIYieldPredPage() {
   async function handleSubmit(e) {
     e.preventDefault();
     if (!form.crop) {
-      setError(language === 'mr' ? 'कृपया सक्रिय पीक निवडा.' : 'Please select an active crop.');
+      setError(t('yieldPrediction.selectActiveCrop'));
       return;
     }
     if (!form.land_area || parseFloat(form.land_area) <= 0) {
-      setError(language === 'mr' ? 'कृपया योग्य जमीन क्षेत्र (एकर) भरा.' : 'Please provide a valid land area in acres.');
+      setError(t('yieldPrediction.validLandArea'));
       return;
     }
 
@@ -124,18 +122,11 @@ export default function AIYieldPredPage() {
       <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2 mb-4">
         <div>
           <h2 className="fw-bold text-dark mb-1">
-            <i className="bi bi-bar-chart-steps text-info me-2"></i>{t('aiYieldPredTitle')}
+            <i className="bi bi-bar-chart-steps text-info me-2"></i>{t('yieldPrediction.title')}
           </h2>
           <p className="text-muted mb-0 small">
-            {language === 'mr'
-              ? 'स्थानिक हवामान आणि शेती घटकांचा वापर करून अपेक्षित पीक काढणी (क्विंटल / टन) मोजतो.'
-              : 'Estimate anticipated harvest yields (Quintals / Tonnes) per acre utilizing historical agro-climatic factors.'}
+            {t('yieldPrediction.subtitle')}
           </p>
-        </div>
-        <div>
-          <span className="badge bg-info-subtle text-info-emphasis border border-info px-3 py-2">
-             · 
-          </span>
         </div>
       </div>
 
@@ -154,15 +145,13 @@ export default function AIYieldPredPage() {
       ) : crops.length === 0 ? (
         <div className="card border-0 shadow-sm rounded-4 p-5 text-center bg-white">
           <i className="bi bi-flower2 fs-1 text-muted mb-3"></i>
-          <h4>{language === 'mr' ? 'कोणतेही पीक आढळले नाही' : 'No Crops Found'}</h4>
+          <h4>{t('yieldPrediction.noCropsFound')}</h4>
           <p className="text-muted mx-auto" style={{ maxWidth: '480px' }}>
-            {language === 'mr'
-              ? 'उत्पन्न अंदाज चालवण्यापूर्वी किमान एक पीक नोंदवा.'
-              : 'You need to register at least one crop before running AI yield estimation.'}
+            {t('yieldPrediction.registerCropFirst')}
           </p>
           <div>
             <a href="/crops" className="btn btn-fms-primary px-4">
-              <i className="bi bi-plus-lg me-1"></i>{language === 'mr' ? 'पीक जोडा' : 'Add Crop First'}
+              <i className="bi bi-plus-lg me-1"></i>{t('yieldPrediction.addCropFirst')}
             </a>
           </div>
         </div>
@@ -195,7 +184,7 @@ export default function AIYieldPredPage() {
                     </select>
                     {selectedCropObj && (
                       <div className="form-text small text-muted">
-                        {language === 'mr' ? 'शेत:' : 'Field:'} <strong>{selectedCropObj.field_name}</strong> | {t('sowingDate')}: {selectedCropObj.sowing_date}
+                        {t('yieldPrediction.field')} <strong>{selectedCropObj.field_name}</strong> | {t('sowingDate')}: {selectedCropObj.sowing_date}
                       </div>
                     )}
                   </div>
@@ -224,7 +213,7 @@ export default function AIYieldPredPage() {
                         onChange={handleChange}
                       >
                         {SEASONS.map((s) => (
-                          <option key={s} value={s}>{s}</option>
+                          <option key={s} value={s}>{t(`seasonLabels.${s}`, { defaultValue: s })}</option>
                         ))}
                       </select>
                     </div>
@@ -240,7 +229,7 @@ export default function AIYieldPredPage() {
                         onChange={handleChange}
                       >
                         {SOIL_TYPES.map((st) => (
-                          <option key={st} value={st}>{st} {language === 'mr' ? 'माती' : 'Soil'}</option>
+                          <option key={st} value={st}>{t('common.soilLabel', { type: st })}</option>
                         ))}
                       </select>
                     </div>
@@ -269,7 +258,7 @@ export default function AIYieldPredPage() {
                     >
                       {FERTILIZER_OPTIONS.map((f) => (
                         <option key={f.value} value={f.value}>
-                          {language === 'mr' ? f.labelMr : f.labelEn}
+                          {t(`fertilizerOptions.${f.key}`)}
                         </option>
                       ))}
                     </select>
@@ -301,19 +290,19 @@ export default function AIYieldPredPage() {
             {result ? (
               <div className="card border-0 shadow-sm rounded-4 h-100 bg-white">
                 <div className="card-header bg-info-subtle border-bottom py-3">
-                  <span className="badge bg-info text-white float-end">{language === 'mr' ? 'मॉडेल विश्लेषित' : 'Model Evaluated'}</span>
+                  <span className="badge bg-info text-white float-end">{t('yieldPrediction.modelEvaluated')}</span>
                   <h5 className="fw-bold text-info-emphasis mb-0">
-                    <i className="bi bi-award me-2"></i>{language === 'mr' ? 'उत्पन्न अंदाज परिणाम' : 'Yield Prediction Estimate'}
+                    <i className="bi bi-award me-2"></i>{t('yieldPrediction.yieldEstimate')}
                   </h5>
                 </div>
                 <div className="card-body p-4 text-center">
                   <div className="my-3">
                     <span className="text-muted small text-uppercase fw-semibold d-block">{t('estimatedHarvest')}</span>
                     <h1 className="display-4 fw-bold text-success my-2">
-                      {result.predicted_yield} <span className="fs-4 text-secondary">{language === 'mr' ? 'क्विंटल' : 'Quintals'}</span>
+                      {result.predicted_yield} <span className="fs-4 text-secondary">{t('common.quintals')}</span>
                     </h1>
                     <div className="text-muted">
-                      ≈ <strong>{(result.predicted_yield / 10).toFixed(2)} {language === 'mr' ? 'मेट्रिक टन' : 'Metric Tonnes'}</strong>
+                      ≈ <strong>{(result.predicted_yield / 10).toFixed(2)} {t('common.metricTonnes')}</strong>
                     </div>
                   </div>
 
@@ -322,7 +311,7 @@ export default function AIYieldPredPage() {
                   <div className="row g-2 text-start">
                     <div className="col-6">
                       <div className="p-3 bg-light rounded-3">
-                        <small className="text-muted d-block">{language === 'mr' ? 'एकरी उत्पादन' : 'Yield per Acre'}</small>
+                        <small className="text-muted d-block">{t('yieldPrediction.yieldPerAcre')}</small>
                         <strong className="fs-5 text-dark">
                           {(result.predicted_yield / (result.land_area || 1)).toFixed(2)} Qtl / {t('acres')}
                         </strong>
@@ -330,19 +319,19 @@ export default function AIYieldPredPage() {
                     </div>
                     <div className="col-6">
                       <div className="p-3 bg-light rounded-3">
-                        <small className="text-muted d-block">{language === 'mr' ? 'जमीन क्षेत्र' : 'Cultivated Land'}</small>
+                        <small className="text-muted d-block">{t('yieldPrediction.cultivatedLand')}</small>
                         <strong className="fs-5 text-dark">{result.land_area} {t('acres')}</strong>
                       </div>
                     </div>
                     <div className="col-6">
                       <div className="p-3 bg-light rounded-3">
-                        <small className="text-muted d-block">{language === 'mr' ? 'हंगाम व माती' : 'Season & Soil'}</small>
-                        <strong className="text-dark">{result.season} | {result.soil_type}</strong>
+                        <small className="text-muted d-block">{t('yieldPrediction.seasonAndSoil')}</small>
+                        <strong className="text-dark">{t(`seasonLabels.${result.season}`, { defaultValue: result.season })} | {t('common.soilLabel', { type: result.soil_type })}</strong>
                       </div>
                     </div>
                     <div className="col-6">
                       <div className="p-3 bg-light rounded-3">
-                        <small className="text-muted d-block">{language === 'mr' ? 'पाऊस' : 'Rainfall Feed'}</small>
+                        <small className="text-muted d-block">{t('yieldPrediction.rainfallFeed')}</small>
                         <strong className="text-dark">{result.rainfall ? `${result.rainfall} mm` : '—'}</strong>
                       </div>
                     </div>
@@ -350,21 +339,17 @@ export default function AIYieldPredPage() {
 
                   <div className="alert alert-success border-0 rounded-3 mt-4 text-start mb-0 small">
                     <i className="bi bi-lightbulb-fill text-success me-2"></i>
-                    <strong>{language === 'mr' ? 'कृषी सल्ला:' : 'Agronomic Insight:'}</strong>{' '}
-                    {language === 'mr'
-                      ? `अंदाज ${result.soil_type} माती निर्देशांक आणि ${result.fertilizer_use || 'संतुलित'} खतावर आधारित आहे.`
-                      : `Yield forecast integrates base variety performance adjusted for ${result.soil_type} soil fertility index and ${result.fertilizer_use || 'balanced'} nutrition.`}
+                    <strong>{t('yieldPrediction.agronomicInsight')}</strong>{' '}
+                    {t('yieldPrediction.insightText', { soil: result.soil_type, fertilizer: result.fertilizer_use || 'balanced' })}
                   </div>
                 </div>
               </div>
             ) : (
               <div className="card border-0 shadow-sm rounded-4 h-100 bg-white d-flex align-items-center justify-content-center p-5 text-center text-muted">
                 <i className="bi bi-graph-up-arrow fs-1 text-info opacity-50 mb-3"></i>
-                <h5 className="fw-semibold text-dark">{language === 'mr' ? 'अंदाजासाठी तयार' : 'Ready for Prediction'}</h5>
+                <h5 className="fw-semibold text-dark">{t('yieldPrediction.readyForPrediction')}</h5>
                 <p className="small mb-0" style={{ maxWidth: '360px' }}>
-                  {language === 'mr'
-                    ? 'डाव्या बाजूला शेती माहिती भरा आणि "उत्पन्न अंदाज काढा" वर क्लिक करा.'
-                    : 'Select your crop and farming inputs on the left, then click Calculate Predicted Yield.'}
+                  {t('yieldPrediction.readyHint')}
                 </p>
               </div>
             )}
@@ -377,26 +362,26 @@ export default function AIYieldPredPage() {
                 <h5 className="fw-bold text-dark mb-0">
                   <i className="bi bi-clock-history me-2 text-secondary"></i>{t('historicalPredictions')}
                 </h5>
-                <span className="badge bg-light text-muted border">{history.length} {language === 'mr' ? 'नोंदी' : 'Saved Runs'}</span>
+                <span className="badge bg-light text-muted border">{history.length} {t('yieldPrediction.savedRuns')}</span>
               </div>
               <div className="card-body p-0">
                 {history.length === 0 ? (
                   <div className="text-center py-4 text-muted small">
-                    {language === 'mr' ? 'कोणतेही मागील अंदाज नाहीत.' : 'No past predictions recorded yet. Run your first calculation above!'}
+                    {t('yieldPrediction.noPastPredictions')}
                   </div>
                 ) : (
                   <div className="table-responsive">
                     <table className="table table-hover align-middle mb-0">
                       <thead className="table-light small">
                         <tr>
-                          <th>{language === 'mr' ? 'तारीख' : 'Date'}</th>
-                          <th>{language === 'mr' ? 'पीक' : 'Crop'}</th>
-                          <th>{language === 'mr' ? 'क्षेत्र (एकर)' : 'Area (Acres)'}</th>
+                          <th>{t('common.date')}</th>
+                          <th>{t('yieldPrediction.crop')}</th>
+                          <th>{t('yieldPrediction.areaAcres')}</th>
                           <th>{t('season')}</th>
                           <th>{t('soilType')}</th>
                           <th>{t('rainfall')}</th>
-                          <th>{language === 'mr' ? 'खत' : 'Fertilizer'}</th>
-                          <th className="text-end">{language === 'mr' ? 'अंदाजित उत्पन्न' : 'Predicted Yield'}</th>
+                          <th>{t('yieldPrediction.fertilizer')}</th>
+                          <th className="text-end">{t('yieldPrediction.predictedYield')}</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -407,8 +392,8 @@ export default function AIYieldPredPage() {
                             </td>
                             <td className="fw-semibold text-dark">{h.crop_name}</td>
                             <td>{h.land_area}</td>
-                            <td><span className="badge bg-secondary-subtle text-secondary">{h.season}</span></td>
-                            <td>{h.soil_type}</td>
+                            <td><span className="badge bg-secondary-subtle text-secondary">{t(`seasonLabels.${h.season}`, { defaultValue: h.season })}</span></td>
+                            <td>{t('common.soilLabel', { type: h.soil_type })}</td>
                             <td>{h.rainfall ? `${h.rainfall} mm` : '-'}</td>
                             <td className="small text-muted">{h.fertilizer_use || '-'}</td>
                             <td className="text-end fw-bold text-success fs-6">

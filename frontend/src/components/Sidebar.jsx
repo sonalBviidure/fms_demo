@@ -1,20 +1,19 @@
 import React from 'react';
-import { NavLink, useNavigate, Link } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 
 const Sidebar = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
   const { logout, user } = useAuth();
-  const { t, language, toggleLanguage } = useLanguage();
+  const { t, toggleLanguage } = useLanguage();
 
   const handleLogout = async () => {
     await logout();
     navigate('/login');
   };
 
-  const displayName = user?.full_name || user?.username || 'Farmer';
-  const initials = displayName.charAt(0).toUpperCase();
+
 
   return (
     <>
@@ -32,14 +31,14 @@ const Sidebar = ({ isOpen, onClose }) => {
           <div>
             <div className="fw-bold text-white fs-6 lh-1">FMS Portal</div>
             <small className="text-white-50" style={{ fontSize: '0.7rem' }}>
-              Farm Management System
+              {t('navigation.brand')}
             </small>
           </div>
         </div>
 
         {/* Nav Links */}
         <ul className="sidebar-nav">
-          <li className="sidebar-heading">{t('dashboard') === 'डॅशबोर्ड' ? 'मुख्य व्यवस्थापन' : 'Core Management'}</li>
+          <li className="sidebar-heading">{t('navigation.coreManagement')}</li>
 
           <li className="sidebar-item">
             <NavLink
@@ -48,7 +47,7 @@ const Sidebar = ({ isOpen, onClose }) => {
               onClick={onClose}
             >
               <i className="bi bi-grid-1x2-fill"></i>
-              <span>{t('dashboard')}</span>
+              <span>{t('navigation.dashboard')}</span>
             </NavLink>
           </li>
 
@@ -59,7 +58,7 @@ const Sidebar = ({ isOpen, onClose }) => {
               onClick={onClose}
             >
               <i className="bi bi-flower2"></i>
-              <span>{t('crops')}</span>
+              <span>{t('navigation.crops')}</span>
             </NavLink>
           </li>
 
@@ -70,7 +69,7 @@ const Sidebar = ({ isOpen, onClose }) => {
               onClick={onClose}
             >
               <i className="bi bi-wallet2"></i>
-              <span>{t('expenses')}</span>
+              <span>{t('navigation.expenses')}</span>
             </NavLink>
           </li>
 
@@ -81,7 +80,7 @@ const Sidebar = ({ isOpen, onClose }) => {
               onClick={onClose}
             >
               <i className="bi bi-basket3"></i>
-              <span>{t('harvestSales')}</span>
+              <span>{t('navigation.harvestSales')}</span>
             </NavLink>
           </li>
 
@@ -92,11 +91,11 @@ const Sidebar = ({ isOpen, onClose }) => {
               onClick={onClose}
             >
               <i className="bi bi-graph-up-arrow"></i>
-              <span>{t('reports')}</span>
+              <span>{t('navigation.reports')}</span>
             </NavLink>
           </li>
 
-          <li className="sidebar-heading">AI & {language === 'mr' ? 'अंदाज' : 'Predictions'}</li>
+          <li className="sidebar-heading">{t('navigation.aiPredictions')}</li>
 
           <li className="sidebar-item">
             <NavLink
@@ -105,7 +104,7 @@ const Sidebar = ({ isOpen, onClose }) => {
               onClick={onClose}
             >
               <i className="bi bi-cpu"></i>
-              <span>{t('aiCropRec')}</span>
+              <span>{t('navigation.aiCropRec')}</span>
             </NavLink>
           </li>
 
@@ -116,7 +115,7 @@ const Sidebar = ({ isOpen, onClose }) => {
               onClick={onClose}
             >
               <i className="bi bi-bar-chart-steps"></i>
-              <span>{t('aiYieldPred')}</span>
+              <span>{t('navigation.aiYieldPred')}</span>
             </NavLink>
           </li>
 
@@ -127,11 +126,11 @@ const Sidebar = ({ isOpen, onClose }) => {
               onClick={onClose}
             >
               <i className="bi bi-currency-rupee"></i>
-              <span>{t('aiProfitPred')}</span>
+              <span>{t('navigation.aiProfitPred')}</span>
             </NavLink>
           </li>
 
-          <li className="sidebar-heading">{language === 'mr' ? 'खाते' : 'Account'}</li>
+          <li className="sidebar-heading">{t('navigation.account')}</li>
 
           <li className="sidebar-item">
             <NavLink
@@ -140,7 +139,7 @@ const Sidebar = ({ isOpen, onClose }) => {
               onClick={onClose}
             >
               <i className="bi bi-person-circle"></i>
-              <span>{t('profile')}</span>
+              <span>{t('navigation.profile')}</span>
             </NavLink>
           </li>
 
@@ -152,7 +151,7 @@ const Sidebar = ({ isOpen, onClose }) => {
               style={{ color: '#ff6b6b' }}
             >
               <i className="bi bi-box-arrow-right" style={{ color: '#ff6b6b' }}></i>
-              <span>{t('logout')}</span>
+              <span>{t('navigation.logout')}</span>
             </button>
           </li>
         </ul>
@@ -162,13 +161,13 @@ const Sidebar = ({ isOpen, onClose }) => {
           <button
             className="lang-toggle-btn w-100 justify-content-center"
             onClick={toggleLanguage}
-            title="Switch Language / भाषा बदला"
+            title={t('navigation.switchLanguage')}
           >
             <i className="bi bi-translate"></i>
-            {language === 'en' ? '🇮🇳 मराठी' : '🇬🇧 English'}
+            {t('navigation.langButtonText')}
           </button>
           <div className="sidebar-footer-text mt-2">
-            Smart Agriculture Advisory
+            {t('common.smartAgriAdvisory')}
           </div>
         </div>
       </aside>

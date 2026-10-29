@@ -37,6 +37,16 @@ from .views import (
     profit_prediction,
     crop_field_intelligence,
     current_market_prices,
+
+    # System Admin API
+    admin_login,
+    admin_dashboard_stats,
+    admin_farmers_list,
+    admin_toggle_farmer,
+    admin_delete_farmer,
+    admin_recent_activity,
+    admin_farmer_report,
+    admin_platform_report,
 )
 
 urlpatterns = [
@@ -83,4 +93,14 @@ urlpatterns = [
     path('ai/profit-prediction/', profit_prediction, name='ai-profit-pred'),
     path('ai/crop-intelligence/<int:crop_id>/', crop_field_intelligence, name='ai-crop-intelligence'),
     path('ai/market-prices/', current_market_prices, name='ai-market-prices'),
+
+    # System Admin API
+    path('admin-api/login/', admin_login, name='admin-login'),
+    path('admin-api/stats/', admin_dashboard_stats, name='admin-stats'),
+    path('admin-api/farmers/', admin_farmers_list, name='admin-farmers'),
+    path('admin-api/farmers/<int:user_id>/toggle/', admin_toggle_farmer, name='admin-toggle-farmer'),
+    path('admin-api/farmers/<int:user_id>/delete/', admin_delete_farmer, name='admin-delete-farmer'),
+    path('admin-api/activity/', admin_recent_activity, name='admin-activity'),
+    path('admin-api/farmers/<int:user_id>/report/', admin_farmer_report, name='admin-farmer-report'),
+    path('admin-api/report/', admin_platform_report, name='admin-platform-report'),
 ]

@@ -1,53 +1,50 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
-import Slider from '../components/Slider';
 
 // Unsplash free images for agriculture / farm backgrounds
 const FARM_BG = 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1600&q=80';
 const FIELD_BG = 'https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=1600&q=80';
-const HARVEST_BG = 'https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=1600&q=80';
 
 const LandingPage = () => {
-  const { t, language, toggleLanguage } = useLanguage();
+  const { t, toggleLanguage } = useLanguage();
 
   const features = [
     {
       icon: 'bi-flower2',
       color: 'text-success',
       bg: 'bg-success-subtle',
-      title: language === 'mr' ? 'पीक व शेत व्यवस्थापन' : 'Crop & Field Management',
-      desc: language === 'mr'
-        ? 'एकर, हंगाम आणि पेरणी तारखेनुसार पिके आयोजित करा.'
-        : 'Organize crops by acreage, season, and sowing dates to keep structured farm histories.',
+      title: t('landing.feature1Title'),
+      desc: t('landing.feature1Desc'),
     },
     {
       icon: 'bi-wallet2',
       color: 'text-danger',
       bg: 'bg-danger-subtle',
-      title: language === 'mr' ? 'खर्च व उत्पन्न' : 'Expense & Revenue Tracking',
-      desc: language === 'mr'
-        ? 'बियाणे, खते, मजुरी आणि बाजार विक्रीच्या नोंदी ठेवा.'
-        : 'Record all input costs (seeds, fertilizer, labor) and track market sales accurately.',
+      title: t('landing.feature2Title'),
+      desc: t('landing.feature2Desc'),
     },
     {
       icon: 'bi-cash-stack',
       color: 'text-primary',
       bg: 'bg-primary-subtle',
-      title: language === 'mr' ? 'आर्थिक गणना' : 'Financial Calculations',
-      desc: language === 'mr'
-        ? 'एकरी खर्च, महसूल आणि निव्वळ नफा/तोटा स्वयंचलितपणे मोजा.'
-        : 'Auto-compute Cost/Acre, Revenue, and Net Profit/Loss for complete financial clarity.',
+      title: t('landing.feature3Title'),
+      desc: t('landing.feature3Desc'),
     },
     {
       icon: 'bi-cpu',
       color: 'text-info',
       bg: 'bg-info-subtle',
-      title: language === 'mr' ? 'AI/ML तंत्रज्ञान' : 'AI/ML Insights',
-      desc: language === 'mr'
-        ? 'हुशार पीक शिफारस, उत्पन्न अंदाज आणि नफा अनुमान.'
-        : 'Smart crop recommendations, yield estimations, and profit forecasting using ML models.',
+      title: t('landing.feature4Title'),
+      desc: t('landing.feature4Desc'),
     },
+  ];
+
+  const systemOverviewItems = [
+    t('landing.overview1'),
+    t('landing.overview2'),
+    t('landing.overview3'),
+    t('landing.overview4'),
   ];
 
   return (
@@ -57,17 +54,17 @@ const LandingPage = () => {
         <div className="container">
           <Link className="navbar-brand d-flex align-items-center gap-2 fw-bold" to="/">
             <i className="bi bi-tree-fill text-success fs-4"></i>
-            <span>Farm Management System</span>
+            <span>{t('navigation.brand')}</span>
           </Link>
 
           <div className="d-flex align-items-center gap-2">
             <button
               className="lang-toggle-btn"
               onClick={toggleLanguage}
-              title="Switch Language / भाषा बदला"
+              title={t('navigation.switchLanguage')}
             >
               <i className="bi bi-translate"></i>
-              {language === 'en' ? '🇮🇳 मराठी' : '🇬🇧 English'}
+              {t('navigation.langButtonText')}
             </button>
             <Link to="/login" className="btn btn-outline-light btn-sm px-3">
               {t('login')}
@@ -88,7 +85,7 @@ const LandingPage = () => {
           <div className="row align-items-center gy-4">
             <div className="col-lg-7">
               <span className="badge bg-warning text-dark fw-semibold mb-3 px-3 py-2 fs-6">
-                🌾 {language === 'mr' ? 'स्मार्ट शेती व आर्थिक नियंत्रण' : 'Smart Agriculture & Financial Control'}
+                🌾 {t('landing.smartBadge')}
               </span>
               <h1 className="display-5 fw-bold mb-3">
                 {t('landingTitle')}
@@ -114,15 +111,15 @@ const LandingPage = () => {
               <div className="mt-4 d-flex flex-wrap gap-3">
                 <span className="badge bg-success bg-opacity-25 border border-success-subtle px-3 py-2 text-white">
                   <i className="bi bi-check-circle-fill me-1"></i>
-                  {language === 'mr' ? '8 मॉड्यूल्स सक्रिय' : '8 Modules Active'}
+                  {t('landing.modulesActive')}
                 </span>
                 <span className="badge bg-info bg-opacity-25 border border-info-subtle px-3 py-2 text-white">
-                  <i className="bi bi-database-check me-1"></i>
-                  MySQL + Django REST
+                  <i className="bi bi-shield-check me-1"></i>
+                  {t('landing.secureRecords')}
                 </span>
                 <span className="badge bg-warning bg-opacity-25 border border-warning-subtle px-3 py-2 text-white">
                   <i className="bi bi-cpu me-1"></i>
-                  AI/ML {language === 'mr' ? 'एकत्रित' : 'Integrated'}
+                  {t('landing.aiMlIntegrated')}
                 </span>
               </div>
             </div>
@@ -131,30 +128,13 @@ const LandingPage = () => {
               <div className="card border-0 shadow-lg bg-white text-dark rounded-4 p-4">
                 <h5 className="fw-bold text-success mb-3">
                   <i className="bi bi-clipboard2-pulse me-2"></i>
-                  {language === 'mr' ? 'प्रणाली अवलोकन' : 'System Overview'}
+                  {t('landing.systemOverview')}
                 </h5>
                 <ul className="list-unstyled mb-0 d-flex flex-column gap-3 small">
-                  {[
-                    {
-                      en: 'Crop-wise Lifecycle: Track sowing, cultivation progress, and harvesting timeline.',
-                      mr: 'पीक चक्र: पेरणी, लागवड आणि काढणीचा इतिहास ठेवा.',
-                    },
-                    {
-                      en: 'Expense & Sales Tracking: Record inputs (seeds, fertilizer, labor) and market sales.',
-                      mr: 'खर्च व विक्री: बियाणे, खते, मजुरी आणि बाजार विक्री नोंद करा.',
-                    },
-                    {
-                      en: 'Financial Metrics: Auto-compute Cost/Acre, Revenue, and Net Profit/Loss.',
-                      mr: 'आर्थिक माहिती: एकरी खर्च, महसूल आणि निव्वळ नफा स्वयंचलितपणे मोजा.',
-                    },
-                    {
-                      en: 'AI/ML Integration: Smart crop recommendations, yield estimations, and profit forecasting.',
-                      mr: 'AI/ML एकत्रीकरण: हुशार पीक शिफारस, उत्पन्न अंदाज आणि नफा भविष्यवाणी.',
-                    },
-                  ].map((item, i) => (
+                  {systemOverviewItems.map((item, i) => (
                     <li key={i} className="d-flex align-items-start gap-2">
                       <i className="bi bi-check-circle-fill text-success mt-1 flex-shrink-0"></i>
-                      <div>{language === 'mr' ? item.mr : item.en}</div>
+                      <div>{item}</div>
                     </li>
                   ))}
                 </ul>
@@ -172,15 +152,13 @@ const LandingPage = () => {
         <div className="container py-2">
           <div className="text-center mb-5">
             <span className="text-uppercase text-muted fw-bold small">
-              {language === 'mr' ? 'मॉड्युलर आर्किटेक्चर' : 'Modular Architecture'}
+              {t('landing.modularArchitecture')}
             </span>
             <h2 className="fw-bold text-dark mt-1">
-              {language === 'mr' ? 'मुख्य प्रणाली क्षमता' : 'Core System Capabilities'}
+              {t('landing.coreCapabilities')}
             </h2>
             <p className="text-muted small">
-              {language === 'mr'
-                ? 'शेतकऱ्यांसाठी संपूर्ण डिजिटल कृषी व्यवस्थापन प्रणाली'
-                : 'Complete Digital Agriculture Management Platform for Farmers'}
+              {t('landing.platformSubtitle')}
             </p>
           </div>
 
@@ -202,10 +180,10 @@ const LandingPage = () => {
           {/* Stats Row */}
           <div className="row g-3 mt-4">
             {[
-              { label: language === 'mr' ? 'पीक व्यवस्थापन' : 'Crop Management', value: 'Phase 3', icon: 'bi-flower2', color: 'text-success' },
-              { label: language === 'mr' ? 'खर्च ट्रॅकिंग' : 'Expense Tracking', value: 'Phase 4', icon: 'bi-wallet2', color: 'text-danger' },
-              { label: language === 'mr' ? 'काढणी व विक्री' : 'Harvest & Sales', value: 'Phase 5', icon: 'bi-basket3', color: 'text-primary' },
-              { label: language === 'mr' ? 'AI मॉड्यूल्स' : 'AI Modules', value: '3 Active', icon: 'bi-cpu', color: 'text-info' },
+              { label: t('navigation.crops'), value: t('landing.moduleActive'), icon: 'bi-flower2', color: 'text-success' },
+              { label: t('navigation.expenses'), value: t('landing.moduleActive'), icon: 'bi-wallet2', color: 'text-danger' },
+              { label: t('navigation.harvestSales'), value: t('landing.moduleActive'), icon: 'bi-basket3', color: 'text-primary' },
+              { label: t('navigation.aiProfitPred'), value: t('landing.liveRates'), icon: 'bi-cpu', color: 'text-info' },
             ].map((s, i) => (
               <div key={i} className="col-6 col-md-3">
                 <div className="card border-0 shadow-sm rounded-3 text-center p-3">
@@ -229,21 +207,20 @@ const LandingPage = () => {
             <div className="col-md-8">
               <div className="d-flex align-items-center gap-2 mb-1">
                 <i className="bi bi-tree-fill text-success"></i>
-                <strong className="text-white">Farm Management System</strong>
+                <strong className="text-white">{t('navigation.brand')}</strong>
               </div>
               <small style={{ color: 'rgba(255,255,255,0.65)' }}>
-                {language === 'mr'
-                  ? 'शेतकऱ्यांना सक्षम बनवणारे डिजिटल शेती व्यासपीठ · पीक नोंद, उत्पन्न आणि नफा अंदाज'
-                  : 'Empowering farmers with smart crop tracking, AI advisory, and real-time market insights.'}
+                {t('landing.footerNotice')}
               </small>
             </div>
             <div className="col-md-4 text-md-end">
               <button
                 className="lang-toggle-btn"
                 onClick={toggleLanguage}
+                title={t('navigation.switchLanguage')}
               >
                 <i className="bi bi-translate"></i>
-                {language === 'en' ? '🇮🇳 मराठी' : '🇬🇧 English'}
+                {t('navigation.langButtonText')}
               </button>
             </div>
           </div>
