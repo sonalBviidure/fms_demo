@@ -213,7 +213,10 @@ const LandingPage = () => {
                 {t('landing.footerNotice')}
               </small>
             </div>
-            <div className="col-md-4 text-md-end">
+            <div className="col-md-4 text-md-end d-flex align-items-center justify-content-md-end gap-3">
+              <Link to="/admin/login" className="text-white-50 text-decoration-none small" style={{ fontSize: '13px' }}>
+                <i className="bi bi-shield-lock me-1"></i>System Admin
+              </Link>
               <button
                 className="lang-toggle-btn"
                 onClick={toggleLanguage}

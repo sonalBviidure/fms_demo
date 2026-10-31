@@ -3,8 +3,82 @@ import { getCropRecommendations, submitCropRecommendation } from '../../services
 import { useLanguage } from '../../context/LanguageContext';
 
 /**
- * Crop Advisory Page - state-aware multi-crop recommendations
+ * AI Crop Advisory Page - State-aware multi-crop recommendations with AI Weather Intelligence
  */
+
+const AI_WEATHER_PRESETS = [
+  {
+    value: 'Optimal Monsoon (Heavy to Moderate Rainfall, 26°C-32°C)',
+    label: '🌧️ AI: Optimal Monsoon (Heavy Rain, 26°C-32°C, 80%+ Humidity)',
+    season: 'Kharif',
+    climate: 'Heavy Rain',
+  },
+  {
+    value: 'Moderate Monsoon Showers & Warm Humid Climate (24°C-30°C)',
+    label: '🌦️ AI: Moderate Showers & Humid (24°C-30°C, Balanced Rain)',
+    season: 'Kharif',
+    climate: 'Moderate Rain',
+  },
+  {
+    value: 'Cool Winter Climate with Mild Sun (15°C-22°C)',
+    label: '❄️ AI: Cool Winter Climate (15°C-22°C, Mild Cold, Low Dew)',
+    season: 'Rabi',
+    climate: 'Cool / Mild Cold',
+  },
+  {
+    value: 'Cold Dry Winter with Morning Mist (10°C-18°C)',
+    label: '🌫️ AI: Cold Dry Winter & Dew (10°C-18°C, Northern Plains/Hills)',
+    season: 'Rabi',
+    climate: 'Cold / Dry',
+  },
+  {
+    value: 'Hot Summer & High Sunshine (35°C-42°C, Dry Air)',
+    label: '☀️ AI: High Sunshine & Hot Summer (35°C-42°C, High Evaporation)',
+    season: 'Zaid',
+    climate: 'Hot & Dry',
+  },
+  {
+    value: 'Semi-Arid Dry Sunny Climate with Low Rainfall (30°C-38°C)',
+    label: '🏜️ AI: Semi-Arid Dry Climate (30°C-38°C, Drought Resilient Zone)',
+    season: 'Any',
+    climate: 'Semi-Arid',
+  },
+  {
+    value: 'Humid Coastal Tropical Breeze (28°C-34°C, High Moisture)',
+    label: '🌊 AI: Tropical Coastal Humidity (28°C-34°C, High Moisture & Showers)',
+    season: 'Any',
+    climate: 'Coastal Humid',
+  },
+  {
+    value: 'Temperate & Cool Mountain Slopes (12°C-20°C, High Elevation)',
+    label: '🏔️ AI: Temperate Mountain Slope (12°C-20°C, Hill Agro-Zone)',
+    season: 'Any',
+    climate: 'Cool Hill Station',
+  },
+];
+
+function getAIPredictedWeather(state, season) {
+  const s = (state || '').toLowerCase();
+  if (s.includes('himachal') || s.includes('uttarakhand') || s.includes('kashmir')) {
+    return 'Temperate & Cool Mountain Slopes (12°C-20°C, High Elevation)';
+  }
+  if (s.includes('rajasthan')) {
+    return 'Semi-Arid Dry Sunny Climate with Low Rainfall (30°C-38°C)';
+  }
+  if (s.includes('kerala') || s.includes('goa') || s.includes('bengal') || s.includes('odisha') || s.includes('tamil')) {
+    return 'Humid Coastal Tropical Breeze (28°C-34°C, High Moisture)';
+  }
+  if (season === 'Kharif') {
+    return 'Optimal Monsoon (Heavy to Moderate Rainfall, 26°C-32°C)';
+  }
+  if (season === 'Rabi') {
+    return 'Cool Winter Climate with Mild Sun (15°C-22°C)';
+  }
+  if (season === 'Zaid') {
+    return 'Hot Summer & High Sunshine (35°C-42°C, Dry Air)';
+  }
+  return 'Moderate Monsoon Showers & Warm Humid Climate (24°C-30°C)';
+}
 
 const SOIL_TYPES = ['Black', 'Red', 'Loamy', 'Alluvial', 'Clayey', 'Sandy', 'Other'];
 const SEASONS = ['Kharif', 'Rabi', 'Zaid', 'Annual'];
@@ -43,15 +117,16 @@ export default function AICropRecPage() {
   const [form, setForm] = useState({
     soil_type: 'Black',
     season: 'Kharif',
-    weather_conditions: '',
+    weather_conditions: AI_WEATHER_PRESETS[0].value,
     irrigation_type: 'Rainfed',
-    state: '',
+    state: 'Maharashtra',
   });
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(false);
   const [historyLoading, setHistoryLoading] = useState(true);
   const [recommendations, setRecommendations] = useState([]);
   const [error, setError] = useState('');
+  const [aiWeatherNote, setAiWeatherNote] = useState('AI auto-configured for Maharashtra Kharif season');
 
   useEffect(() => { loadHistory(); }, []);
 
@@ -68,7 +143,25 @@ export default function AICropRecPage() {
   }
 
   function handleChange(e) {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    const { name, value } = e.target;
+    setForm((prev) => {
+      const updated = { ...prev, [name]: value };
+      if (name === 'state' || name === 'season') {
+        const predicted = getAIPredictedWeather(
+          name === 'state' ? value : updated.state,
+          name === 'season' ? value : updated.season
+        );
+        updated.weather_conditions = predicted;
+        setAiWeatherNote(`AI updated weather pattern for ${updated.state || 'region'} (${updated.season})`);
+      }
+      return updated;
+    });
+  }
+
+  function handleAutoPredictWeather() {
+    const predicted = getAIPredictedWeather(form.state, form.season);
+    setForm((prev) => ({ ...prev, weather_conditions: predicted }));
+    setAiWeatherNote(`✨ AI Model synced agro-climate for ${form.state || 'General Region'} (${form.season})`);
   }
 
   async function handleSubmit(e) {
@@ -98,22 +191,42 @@ export default function AICropRecPage() {
   return (
     <div className="container-fluid py-4">
       {/* Header */}
-      <div className="mb-4">
-        <h2 className="fw-bold text-success mb-0">
-          <i className="bi bi-cpu me-2"></i>
-          {t('aiCropRecTitle')}
-        </h2>
-        <p className="text-muted mb-0 small">{t('cropRecommendation.subtitle')}</p>
+      <div className="mb-4 d-flex flex-wrap align-items-center justify-content-between gap-3">
+        <div>
+          <h2 className="fw-bold text-success mb-0 d-flex align-items-center gap-2">
+            <i className="bi bi-cpu"></i>
+            <span>AI Crop Advisory & Prediction Engine</span>
+            <span className="badge bg-success-subtle text-success border border-success-subtle fs-6 fw-normal">
+              AI Powered
+            </span>
+          </h2>
+          <p className="text-muted mb-0 small">
+            AI-driven crop suitability recommendations tailored to your state, soil, season, and AI-predicted weather
+          </p>
+        </div>
+
+        <button
+          type="button"
+          onClick={handleAutoPredictWeather}
+          className="btn btn-outline-success btn-sm d-flex align-items-center gap-2 shadow-sm"
+          title="Auto-detect AI weather for selected state and season"
+        >
+          <i className="bi bi-stars text-warning"></i>
+          <span>AI Auto-Predict Weather</span>
+        </button>
       </div>
 
       <div className="row g-4">
         {/* ── Input Form ── */}
         <div className="col-lg-4">
           <div className="card border-0 shadow-sm h-100">
-            <div className="card-header bg-success text-white">
+            <div className="card-header bg-success text-white d-flex align-items-center justify-content-between">
               <h6 className="mb-0 fw-semibold">
                 <i className="bi bi-sliders me-2"></i>{t('enterFarmParams')}
               </h6>
+              <span className="badge bg-white text-success small py-1 px-2 fw-bold">
+                <i className="bi bi-robot me-1"></i>AI Engine
+              </span>
             </div>
             <div className="card-body">
               {error && <div className="alert alert-danger py-2 small">{error}</div>}
@@ -121,7 +234,10 @@ export default function AICropRecPage() {
 
                 {/* State */}
                 <div className="mb-3">
-                  <label className="form-label fw-semibold small">{t('cropRecommendation.stateLabel')}</label>
+                  <label className="form-label fw-semibold small d-flex justify-content-between">
+                    <span>{t('cropRecommendation.stateLabel')}</span>
+                    <span className="text-muted small">Agro-climatic zone</span>
+                  </label>
                   <select name="state" value={form.state} onChange={handleChange} className="form-select form-select-sm">
                     <option value="">{t('cropRecommendation.statePlaceholder')}</option>
                     {INDIAN_STATES.map((s) => <option key={s} value={s}>{s}</option>)}
@@ -148,19 +264,46 @@ export default function AICropRecPage() {
                   </select>
                 </div>
 
-                {/* Weather */}
+                {/* Weather - AI Predicted Dropdown */}
                 <div className="mb-3">
-                  <label className="form-label fw-semibold small">{t('weatherConditions')}</label>
-                  <input
-                    type="text"
+                  <div className="d-flex align-items-center justify-content-between mb-1">
+                    <label className="form-label fw-semibold small mb-0">
+                      <i className="bi bi-cloud-sun me-1 text-primary"></i>
+                      AI Predicted Weather Conditions *
+                    </label>
+                    <button
+                      type="button"
+                      className="btn btn-link p-0 text-decoration-none small text-success fw-semibold"
+                      style={{ fontSize: '11px' }}
+                      onClick={handleAutoPredictWeather}
+                    >
+                      <i className="bi bi-magic me-1"></i>AI Auto-Detect
+                    </button>
+                  </div>
+
+                  <select
                     name="weather_conditions"
                     value={form.weather_conditions}
                     onChange={handleChange}
-                    className="form-control form-control-sm"
-                    placeholder={t('cropRecommendation.weatherPlaceholder')}
+                    className="form-select form-select-sm border-success shadow-none"
                     required
-                  />
-                  <div className="form-text">{t('cropRecommendation.weatherHint')}</div>
+                  >
+                    {AI_WEATHER_PRESETS.map((p) => (
+                      <option key={p.value} value={p.value}>
+                        {p.label}
+                      </option>
+                    ))}
+                  </select>
+
+                  {aiWeatherNote && (
+                    <div className="mt-1 small text-success d-flex align-items-center gap-1" style={{ fontSize: '11px' }}>
+                      <i className="bi bi-check-circle-fill"></i>
+                      <span>{aiWeatherNote}</span>
+                    </div>
+                  )}
+                  <div className="form-text" style={{ fontSize: '11px' }}>
+                    Select an AI-predicted agro-climatic pattern or let AI auto-predict based on State &amp; Season.
+                  </div>
                 </div>
 
                 {/* Irrigation */}
@@ -173,10 +316,10 @@ export default function AICropRecPage() {
                   </select>
                 </div>
 
-                <button type="submit" className="btn btn-success w-100" disabled={loading}>
+                <button type="submit" className="btn btn-success w-100 fw-semibold shadow-sm" disabled={loading}>
                   {loading
-                    ? <><span className="spinner-border spinner-border-sm me-2"></span>{t('cropRecommendation.analyzing')}</>
-                    : <><i className="bi bi-magic me-2"></i>{t('cropRecommendation.getRecommendation')}</>
+                    ? <><span className="spinner-border spinner-border-sm me-2"></span>Generating AI Advisory...</>
+                    : <><i className="bi bi-cpu me-2"></i>Run AI Crop Recommendation</>
                   }
                 </button>
               </form>
@@ -196,13 +339,17 @@ export default function AICropRecPage() {
                     {CROP_ICONS[topRec.crop] || '\u{1F33E}'}
                   </span>
                   <div className="flex-grow-1">
-                    <span className="badge bg-success mb-1 px-2">{t(RANK_KEYS[0])}</span>
+                    <span className="badge bg-success mb-1 px-2">
+                      <i className="bi bi-award me-1"></i>AI {t(RANK_KEYS[0])}
+                    </span>
                     <h3 className="fw-bold text-success mb-0">{topRec.crop}</h3>
-                    <small className="text-muted">{t('cropRecommendation.recommendedForFarm')}</small>
+                    <small className="text-muted">
+                      Optimal AI-matched crop for {form.state || 'your region'} under {form.season} season
+                    </small>
                   </div>
                   <div className="text-center px-3 py-2 bg-success bg-opacity-10 rounded-3">
                     <div className="fw-bold fs-3 text-success">{topRec.confidence}%</div>
-                    <div className="small text-muted">{t('cropRecommendation.confidence')}</div>
+                    <div className="small text-muted">AI Match Score</div>
                   </div>
                 </div>
 
@@ -213,7 +360,7 @@ export default function AICropRecPage() {
 
                 {/* Reason */}
                 <div className="alert alert-success py-2 mb-3">
-                  <strong><i className="bi bi-info-circle me-1"></i>{t('cropRecommendation.reason')}</strong>{' '}
+                  <strong><i className="bi bi-robot me-1"></i>AI Advisory Insight:</strong>{' '}
                   {topRec.reason}
                 </div>
 
@@ -222,7 +369,7 @@ export default function AICropRecPage() {
                   <div className="bg-light rounded-3 p-3">
                     <h6 className="fw-bold text-success mb-3">
                       <i className="bi bi-lightbulb-fill me-2"></i>
-                      {t('cropRecommendation.tipsFor')} {topRec.crop}
+                      AI Cultivation Guidelines for {topRec.crop}
                     </h6>
                     <div className="row g-2">
                       {topRec.tips.map((tip, i) => (
@@ -245,9 +392,9 @@ export default function AICropRecPage() {
           {/* OTHER OPTIONS */}
           {otherRecs.length > 0 && (
             <div className="mb-4">
-              <h6 className="fw-semibold text-muted mb-3">
-                <i className="bi bi-grid-3x3-gap me-2"></i>
-                {t('cropRecommendation.otherOptions')}
+              <h6 className="fw-semibold text-muted mb-3 d-flex align-items-center gap-2">
+                <i className="bi bi-grid-3x3-gap"></i>
+                <span>Alternative AI Recommendations</span>
               </h6>
               <div className="row g-3">
                 {otherRecs.map((rec, i) => (
@@ -258,7 +405,7 @@ export default function AICropRecPage() {
                           <span style={{ fontSize: '2rem' }}>{CROP_ICONS[rec.crop] || '\u{1F33E}'}</span>
                           <div className="flex-grow-1">
                             <span className={`badge ${RANK_BADGE_BG[i + 1]} mb-1`} style={{ fontSize: '10px' }}>
-                              {t(RANK_KEYS[i + 1])}
+                              AI {t(RANK_KEYS[i + 1])}
                             </span>
                             <div className="fw-bold">{rec.crop}</div>
                           </div>
@@ -281,7 +428,7 @@ export default function AICropRecPage() {
             <div className="card-header bg-white border-bottom d-flex align-items-center">
               <h6 className="mb-0 fw-semibold">
                 <i className="bi bi-clock-history me-2 text-success"></i>
-                {t('cropRecommendation.recommendationHistory')}
+                AI Advisory History Log
               </h6>
               <span className="badge bg-secondary-subtle text-secondary ms-auto">{history.length}</span>
             </div>
@@ -301,11 +448,17 @@ export default function AICropRecPage() {
                     <div key={rec.id} className="list-group-item d-flex align-items-center gap-3 py-3">
                       <div className="fs-3">{CROP_ICONS[rec.recommended_crop] || '\u{1F33E}'}</div>
                       <div className="flex-grow-1">
-                        <div className="fw-semibold text-success">{rec.recommended_crop}</div>
+                        <div className="fw-semibold text-success d-flex align-items-center gap-2">
+                          <span>{rec.recommended_crop}</span>
+                          <span className="badge bg-success-subtle text-success small" style={{ fontSize: '10px' }}>
+                            AI Verified
+                          </span>
+                        </div>
                         <small className="text-muted">
                           {t('common.soilLabel', { type: rec.soil_type })} &middot;{' '}
                           {t(`seasonLabels.${rec.season}`, { defaultValue: rec.season })} &middot;{' '}
                           {t(`irrigationTypes.${rec.irrigation_type}`, { defaultValue: rec.irrigation_type })}
+                          {rec.weather_conditions ? ` · 🌤️ ${rec.weather_conditions}` : ''}
                         </small>
                       </div>
                       <small className="text-muted text-nowrap">

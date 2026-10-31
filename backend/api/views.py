@@ -82,6 +82,17 @@ def api_status(request):
         'project': 'Farm Management System (FMS)',
         'version': '3.0.0 (Operational)',
         'services': 'Operational',
+        'modules': {
+            'auth': 'operational',
+            'fields': 'operational',
+            'crops': 'operational',
+            'expenses': 'operational',
+            'harvests': 'operational',
+            'sales': 'operational',
+            'financial': 'operational',
+            'ai_advisory': 'operational',
+            'system_admin': 'operational',
+        },
         'database': {
             'engine': db_engine,
             'configured_for_mysql': settings.USE_MYSQL,

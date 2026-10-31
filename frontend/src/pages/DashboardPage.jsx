@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import { getDashboardSummary } from '../services/api';
+import { fetchPublicAnnouncements } from '../services/adminApi';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -38,6 +39,7 @@ const DashboardPage = () => {
   const farmLocation = user?.location || t('common.defaultLocation');
   const farmAcres = user?.total_acres ? `${user.total_acres} ${t('acres')}` : t('registered');
 
+  const [announcements, setAnnouncements] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [dashboardData, setDashboardData] = useState({
@@ -62,7 +64,11 @@ const DashboardPage = () => {
     setLoading(true);
     setError('');
     try {
-      const data = await getDashboardSummary();
+      const [data, ann] = await Promise.all([
+        getDashboardSummary(),
+        fetchPublicAnnouncements().catch(() => []),
+      ]);
+      if (Array.isArray(ann)) setAnnouncements(ann);
       if (data && data.summary) {
         setDashboardData(data);
       }
@@ -158,6 +164,44 @@ const DashboardPage = () => {
           </div>
         </div>
       </div>
+
+      {/* ── Active Broadcast Announcements from System Admin ─ */}
+      {announcements.length > 0 && (
+        <div className="mb-4">
+          {announcements.map((ann) => (
+            <div
+              key={ann.id}
+              className={`alert ${
+                ann.priority === 'danger'
+                  ? 'alert-danger border-danger'
+                  : ann.priority === 'warning'
+                  ? 'alert-warning border-warning'
+                  : ann.priority === 'success'
+                  ? 'alert-success border-success'
+                  : 'alert-info border-info'
+              } d-flex align-items-center gap-3 py-2 px-3 shadow-sm mb-2`}
+              role="alert"
+            >
+              <i
+                className={`bi bi-${
+                  ann.priority === 'danger'
+                    ? 'exclamation-octagon-fill text-danger'
+                    : ann.priority === 'warning'
+                    ? 'exclamation-triangle-fill text-warning'
+                    : ann.priority === 'success'
+                    ? 'check-circle-fill text-success'
+                    : 'info-circle-fill text-info'
+                } fs-4 flex-shrink-0`}
+              ></i>
+              <div className="flex-grow-1 min-w-0">
+                <div className="fw-bold small mb-0">{ann.title}</div>
+                <div className="small text-muted text-truncate">{ann.message}</div>
+              </div>
+              <span className="badge bg-white text-secondary border small">{ann.created_at}</span>
+            </div>
+          ))}
+        </div>
+      )}
 
       {error && (
         <div className="alert alert-warning alert-dismissible fade show mb-4" role="alert">
@@ -411,53 +455,6 @@ const DashboardPage = () => {
               </div>
             </div>
           )}
-
-          {/* AI Advisory & Predictions */}
-          <div className="card border-0 shadow-sm rounded-4 bg-white mb-4">
-            <div className="card-header bg-white border-bottom py-3">
-              <h6 className="fw-bold mb-0 text-dark">
-                <i className="bi bi-cpu text-primary me-2"></i>
-                {t('dashboard.aiPredictions')}
-              </h6>
-            </div>
-            <div className="card-body">
-              <div className="d-flex flex-column gap-3 small">
-                {[
-                  {
-                    route: '/ai-crop-recommendation',
-                    icon: '🌱',
-                    title: t('dashboard.cropRecommendation'),
-                    desc: t('dashboard.cropRecDesc'),
-                    badge: t('common.active'), badgeColor: 'bg-success-subtle text-success',
-                  },
-                  {
-                    route: '/ai-yield-prediction',
-                    icon: '📊',
-                    title: t('dashboard.yieldPrediction'),
-                    desc: t('dashboard.yieldPredDesc'),
-                    badge: t('common.active'), badgeColor: 'bg-info-subtle text-info',
-                  },
-                  {
-                    route: '/ai-profit-prediction',
-                    icon: '💰',
-                    title: t('dashboard.profitPrediction'),
-                    desc: t('dashboard.profitPredDesc'),
-                    badge: t('common.active'), badgeColor: 'bg-warning-subtle text-warning',
-                  },
-                ].map((mod) => (
-                  <Link key={mod.route} to={mod.route} className="text-decoration-none">
-                    <div className="p-3 border rounded-3 bg-light hover-card">
-                      <div className="d-flex justify-content-between fw-semibold">
-                        <span className="text-dark">{mod.icon} {mod.title}</span>
-                        <span className={`badge ${mod.badgeColor}`}>{mod.badge}</span>
-                      </div>
-                      <p className="text-muted mb-0 small mt-1">{mod.desc}</p>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </div>
 
           {/* System Info Card */}
           <div className="card border-0 shadow-sm rounded-4 bg-fms-primary text-white p-4">

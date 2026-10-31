@@ -1,12 +1,11 @@
 crop_key,crop_name,market_name,min_price,max_price,modal_price,unit,state
-soybean,Soybean (सोयाबीन),Latur APMC,4600,5200,4950,₹ / Quintal,Maharashtra
-wheat,Wheat (गहू),Pune APMC,2400,2950,2750,₹ / Quintal,Maharashtra
-sugarcane,Sugarcane (ऊस),Kolhapur APMC,310,360,335,₹ / Quintal (₹3350/Tonne),Maharashtra
-cotton,Cotton (कापूस),Nagpur APMC,6800,7700,7350,₹ / Quintal,Maharashtra
-rice,Rice / Paddy (भात),Nashik APMC,2200,3100,2650,₹ / Quintal,Maharashtra
-maize,Maize / Corn (मका),Sangli APMC,1900,2450,2200,₹ / Quintal,Maharashtra
-groundnut,Groundnut (भुईमूग),Solapur APMC,5900,6800,6400,₹ / Quintal,Maharashtra
-gram,Gram / Chana (हरभरा),Akola APMC,5100,5800,5450,₹ / Quintal,Maharashtra
-onion,Onion (कांदा),Lasalgaon APMC,1400,2600,2100,₹ / Quintal,Maharashtra
-tomato,Tomato (टोमॅटो),Narayangaon APMC,1200,2800,2000,₹ / Quintal,Maharashtra
-default,Other Crops,Maharashtra APMC Mandi,2500,4500,3500,₹ / Quintal,Maharashtra
+soybean,Soybean (सोयाबीन),Latur APMC,4688.0,5248.0,4950.0,₹ / Quintal,Maharashtra
+wheat,Wheat (गहू),Pune APMC,2585.0,2937.0,2750.0,₹ / Quintal,Maharashtra
+sugarcane,Sugarcane (ऊस),Kolhapur APMC,316.0,356.0,335.0,₹ / Quintal (₹3350/Tonne),Maharashtra
+cotton,Cotton (कापूस),Nagpur APMC,7012.0,7732.0,7350.0,₹ / Quintal,Maharashtra
+rice,Rice / Paddy (भात),Nashik APMC,2500.0,2820.0,2650.0,₹ / Quintal,Maharashtra
+maize,Maize / Corn (मका),Sangli APMC,2065.0,2353.0,2200.0,₹ / Quintal,Maharashtra
+groundnut,Groundnut (भुईमूग),Solapur APMC,6115.0,6723.0,6400.0,₹ / Quintal,Maharashtra
+gram,Gram / Chana (हरभरा),Akola APMC,5210.0,5722.0,5450.0,₹ / Quintal,Maharashtra
+onion,Onion (कांदा),Lasalgaon APMC,1800.0,2440.0,2100.0,₹ / Quintal,Maharashtra
+tomato,Tomato (टोमॅटो),Narayangaon APMC,1625.0,2425.0,2000.0,₹ / Quintal,Maharashtra

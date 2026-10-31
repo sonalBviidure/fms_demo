@@ -7,10 +7,12 @@ import ProtectedRoute from './components/ProtectedRoute';
 // Layout
 import DashboardLayout from './components/DashboardLayout';
 
-// Core Pages
+// Public Pages
 import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+
+// Authenticated Pages
 import DashboardPage from './pages/DashboardPage';
 import ProfilePage from './pages/ProfilePage';
 
@@ -23,13 +25,27 @@ import AICropRecPage from './pages/placeholders/AICropRecPage';
 import AIYieldPredPage from './pages/placeholders/AIYieldPredPage';
 import AIProfitPredPage from './pages/placeholders/AIProfitPredPage';
 
-// Admin Panel
+// System Admin Operations Suite — Simplified Architecture
 import AdminLoginPage from './pages/admin/AdminLoginPage';
 import AdminLayout from './pages/admin/AdminLayout';
 import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminFarmerLookupPage from './pages/admin/AdminFarmerLookupPage';
+import AdminUsersPage from './pages/admin/AdminUsersPage';
+import AdminAIMonitoringPage from './pages/admin/AdminAIMonitoringPage';
+import AdminSystemMonitoringPage from './pages/admin/AdminSystemMonitoringPage';
+import AdminSettingsPage from './pages/admin/AdminSettingsPage';
+
+// Legacy / Deep Admin Pages
 import AdminFarmersPage from './pages/admin/AdminFarmersPage';
-import AdminActivityPage from './pages/admin/AdminActivityPage';
+import AdminCropsOperationsPage from './pages/admin/AdminCropsOperationsPage';
+import AdminFieldsPage from './pages/admin/AdminFieldsPage';
+import AdminFinancialsPage from './pages/admin/AdminFinancialsPage';
+import AdminMandiPricesPage from './pages/admin/AdminMandiPricesPage';
+import AdminAIAdvisoryPage from './pages/admin/AdminAIAdvisoryPage';
+import AdminAnnouncementsPage from './pages/admin/AdminAnnouncementsPage';
 import AdminReportsPage from './pages/admin/AdminReportsPage';
+import AdminActivityPage from './pages/admin/AdminActivityPage';
+import AdminSystemHealthPage from './pages/admin/AdminSystemHealthPage';
 
 function App() {
   return (
@@ -41,7 +57,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
 
-          {/* Authenticated Routes */}
+          {/* Authenticated Farmer Routes */}
           <Route element={<ProtectedRoute />}>
             <Route element={<DashboardLayout />}>
               <Route path="/dashboard" element={<DashboardPage />} />
@@ -60,13 +76,38 @@ function App() {
             </Route>
           </Route>
 
-          {/* Admin Panel - separate auth system */}
+          {/* System Admin Panel — Simplified Architecture */}
           <Route path="/admin/login" element={<AdminLoginPage />} />
           <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<Navigate to="dashboard" replace />} />
             <Route path="dashboard" element={<AdminDashboard />} />
-            <Route path="farmers" element={<AdminFarmersPage />} />
-            <Route path="activity" element={<AdminActivityPage />} />
+
+            {/* Core Admin Streamlined Pages */}
+            <Route path="farmer-lookup" element={<AdminFarmerLookupPage />} />
+            <Route path="farmer lookup" element={<AdminFarmerLookupPage />} />
+            <Route path="farmer%20lookup" element={<AdminFarmerLookupPage />} />
+            <Route path="farmer_lookup" element={<AdminFarmerLookupPage />} />
+            <Route path="farmer" element={<AdminFarmerLookupPage />} />
+            <Route path="farmers" element={<AdminFarmerLookupPage />} />
+            <Route path="lookup" element={<AdminFarmerLookupPage />} />
+
+            <Route path="users" element={<AdminUsersPage />} />
+            <Route path="ai-monitoring" element={<AdminAIMonitoringPage />} />
+            <Route path="system" element={<AdminSystemMonitoringPage />} />
+            <Route path="settings" element={<AdminSettingsPage />} />
+
+            {/* Aliases & Fallbacks */}
+            <Route path="ai-advisory" element={<AdminAIMonitoringPage />} />
+            <Route path="crops" element={<AdminCropsOperationsPage />} />
+            <Route path="fields" element={<AdminFieldsPage />} />
+            <Route path="financials" element={<AdminFinancialsPage />} />
+            <Route path="mandi" element={<AdminMandiPricesPage />} />
+            <Route path="announcements" element={<AdminAnnouncementsPage />} />
             <Route path="reports" element={<AdminReportsPage />} />
+            <Route path="activity" element={<AdminActivityPage />} />
+
+            {/* Admin Wildcard Fallback */}
+            <Route path="*" element={<Navigate to="farmer-lookup" replace />} />
           </Route>
 
           {/* Fallback */}

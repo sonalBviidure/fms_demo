@@ -1,0 +1,1408 @@
+[
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$720000$G5o4zGP19VN0TVanQGapUO$48v6ZW7Wy85fT60ZVxI6UAFhilcdGqPggJULV30ntYw=",
+    "last_login": null,
+    "is_superuser": true,
+    "username": "systemadmin",
+    "first_name": "System",
+    "last_name": "Admin",
+    "email": "admin@fms.local",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-10-29T17:42:23.780Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$720000$QAoNCeUntu5NXhF4paCQqX$R4jzpzlk7qRmqUp3jkJ13FHvuk171O2VB8mdp0rN6bQ=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "ramesh_patil",
+    "first_name": "Ramesh",
+    "last_name": "Patil",
+    "email": "ramesh_patil@farm.local",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-29T17:52:00.879Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$720000$fcFNYlQsHgmZp3j8T2WvBA$yzyHMtojXJKNe8DKGQkqqJlOEgBij6tsBRVfRPObGHc=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "suresh_shinde",
+    "first_name": "Suresh",
+    "last_name": "Shinde",
+    "email": "suresh_shinde@farm.local",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-29T17:52:01.486Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 4,
+  "fields": {
+    "password": "pbkdf2_sha256$720000$1170YDxE6FBNHI1DZ5R6pB$1D04A2R7xICJes8c7oXjCDIHtQy0hUXIXpnc3PWlwNg=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "anita_deshmukh",
+    "first_name": "Anita",
+    "last_name": "Deshmukh",
+    "email": "anita_deshmukh@farm.local",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-29T17:52:01.970Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 5,
+  "fields": {
+    "password": "pbkdf2_sha256$720000$9aFx02EAfOhWoRd3Y1pRim$xLQUKay43/dlA4ZMmbIx06acQcvsbJpXEsQN9s7qeI4=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "vitthal_chavan",
+    "first_name": "Vitthal",
+    "last_name": "Chavan",
+    "email": "vitthal_chavan@farm.local",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-29T17:52:02.303Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 6,
+  "fields": {
+    "password": "pbkdf2_sha256$720000$m2kweuObOnNThoc3sQl1hL$aesZY8ukiLE633x/lWMKF455s6wkaN0FKRAHTzH8CYY=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "8180939354",
+    "first_name": "Sonali",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-29T18:20:32.804Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "api.farmerprofile",
+  "pk": 1,
+  "fields": {
+    "user": 2,
+    "phone": "9822012345",
+    "location": "Karveer, Kolhapur",
+    "total_acres": "12.50",
+    "created_at": "2026-10-29T17:52:01.189Z",
+    "updated_at": "2026-10-29T17:52:01.189Z"
+  }
+},
+{
+  "model": "api.farmerprofile",
+  "pk": 2,
+  "fields": {
+    "user": 3,
+    "phone": "9822987654",
+    "location": "Baramati, Pune",
+    "total_acres": "8.00",
+    "created_at": "2026-10-29T17:52:01.793Z",
+    "updated_at": "2026-10-29T17:52:01.793Z"
+  }
+},
+{
+  "model": "api.farmerprofile",
+  "pk": 3,
+  "fields": {
+    "user": 4,
+    "phone": "9423112233",
+    "location": "Niphad, Nashik",
+    "total_acres": "6.00",
+    "created_at": "2026-10-29T17:52:02.221Z",
+    "updated_at": "2026-10-29T17:52:02.221Z"
+  }
+},
+{
+  "model": "api.farmerprofile",
+  "pk": 4,
+  "fields": {
+    "user": 5,
+    "phone": "9765432109",
+    "location": "Tasgaon, Sangli",
+    "total_acres": "10.00",
+    "created_at": "2026-10-29T17:52:02.592Z",
+    "updated_at": "2026-10-29T17:52:02.592Z"
+  }
+},
+{
+  "model": "api.farmerprofile",
+  "pk": 5,
+  "fields": {
+    "user": 6,
+    "phone": "8180939354",
+    "location": "sangli",
+    "total_acres": "5.00",
+    "created_at": "2026-10-29T18:20:34.160Z",
+    "updated_at": "2026-10-29T18:20:34.160Z"
+  }
+},
+{
+  "model": "api.field",
+  "pk": 1,
+  "fields": {
+    "farmer": 2,
+    "field_name": "Gat No. 102 - Riverbank Plot",
+    "land_area": "7.50",
+    "soil_type": "Black",
+    "created_at": "2026-10-29T17:52:01.198Z"
+  }
+},
+{
+  "model": "api.field",
+  "pk": 2,
+  "fields": {
+    "farmer": 2,
+    "field_name": "Gat No. 105 - High Garden",
+    "land_area": "5.00",
+    "soil_type": "Loamy",
+    "created_at": "2026-10-29T17:52:01.207Z"
+  }
+},
+{
+  "model": "api.field",
+  "pk": 3,
+  "fields": {
+    "farmer": 3,
+    "field_name": "Plot A - Canal Side",
+    "land_area": "5.00",
+    "soil_type": "Alluvial",
+    "created_at": "2026-10-29T17:52:01.802Z"
+  }
+},
+{
+  "model": "api.field",
+  "pk": 4,
+  "fields": {
+    "farmer": 3,
+    "field_name": "Plot B - Malshiras Road",
+    "land_area": "3.00",
+    "soil_type": "Black",
+    "created_at": "2026-10-29T17:52:01.811Z"
+  }
+},
+{
+  "model": "api.field",
+  "pk": 5,
+  "fields": {
+    "farmer": 4,
+    "field_name": "Vinyard & Onion Parcel",
+    "land_area": "6.00",
+    "soil_type": "Red",
+    "created_at": "2026-10-29T17:52:02.227Z"
+  }
+},
+{
+  "model": "api.field",
+  "pk": 6,
+  "fields": {
+    "farmer": 5,
+    "field_name": "Gat 84 - Tasgaon Mal",
+    "land_area": "6.00",
+    "soil_type": "Loamy",
+    "created_at": "2026-10-29T17:52:02.599Z"
+  }
+},
+{
+  "model": "api.field",
+  "pk": 7,
+  "fields": {
+    "farmer": 5,
+    "field_name": "Gat 85 - Drip Well Plot",
+    "land_area": "4.00",
+    "soil_type": "Black",
+    "created_at": "2026-10-29T17:52:02.605Z"
+  }
+},
+{
+  "model": "api.field",
+  "pk": 8,
+  "fields": {
+    "farmer": 6,
+    "field_name": "north",
+    "land_area": "2.00",
+    "soil_type": "Black",
+    "created_at": "2026-10-29T18:24:23.350Z"
+  }
+},
+{
+  "model": "api.field",
+  "pk": 9,
+  "fields": {
+    "farmer": 6,
+    "field_name": "south",
+    "land_area": "1.00",
+    "soil_type": "Black",
+    "created_at": "2026-10-30T05:41:28.384Z"
+  }
+},
+{
+  "model": "api.crop",
+  "pk": 1,
+  "fields": {
+    "farmer": 2,
+    "field": 1,
+    "crop_name": "Sugarcane",
+    "variety": "Co 86032",
+    "season": "Annual",
+    "sowing_date": "2026-01-22",
+    "status": "Growing",
+    "created_at": "2026-10-29T17:52:01.216Z",
+    "updated_at": "2026-10-29T17:52:01.216Z"
+  }
+},
+{
+  "model": "api.crop",
+  "pk": 2,
+  "fields": {
+    "farmer": 2,
+    "field": 2,
+    "crop_name": "Soybean",
+    "variety": "JS 335",
+    "season": "Kharif",
+    "sowing_date": "2026-07-01",
+    "status": "Harvested",
+    "created_at": "2026-10-29T17:52:01.332Z",
+    "updated_at": "2026-10-29T17:52:01.332Z"
+  }
+},
+{
+  "model": "api.crop",
+  "pk": 3,
+  "fields": {
+    "farmer": 3,
+    "field": 3,
+    "crop_name": "Wheat",
+    "variety": "GW 496",
+    "season": "Rabi",
+    "sowing_date": "2026-07-26",
+    "status": "Growing",
+    "created_at": "2026-10-29T17:52:01.819Z",
+    "updated_at": "2026-10-29T17:52:01.819Z"
+  }
+},
+{
+  "model": "api.crop",
+  "pk": 4,
+  "fields": {
+    "farmer": 3,
+    "field": 4,
+    "crop_name": "Maize",
+    "variety": "Pioneer 3396",
+    "season": "Kharif",
+    "sowing_date": "2026-06-21",
+    "status": "Harvested",
+    "created_at": "2026-10-29T17:52:01.895Z",
+    "updated_at": "2026-10-29T17:52:01.895Z"
+  }
+},
+{
+  "model": "api.crop",
+  "pk": 5,
+  "fields": {
+    "farmer": 4,
+    "field": 5,
+    "crop_name": "Onion",
+    "variety": "Fursungi Red",
+    "season": "Rabi",
+    "sowing_date": "2026-08-20",
+    "status": "Growing",
+    "created_at": "2026-10-29T17:52:02.234Z",
+    "updated_at": "2026-10-29T17:52:02.234Z"
+  }
+},
+{
+  "model": "api.crop",
+  "pk": 6,
+  "fields": {
+    "farmer": 5,
+    "field": 6,
+    "crop_name": "Cotton",
+    "variety": "RCH 659 BG II",
+    "season": "Kharif",
+    "sowing_date": "2026-05-22",
+    "status": "Harvested",
+    "created_at": "2026-10-29T17:52:02.612Z",
+    "updated_at": "2026-10-29T17:52:02.612Z"
+  }
+},
+{
+  "model": "api.crop",
+  "pk": 7,
+  "fields": {
+    "farmer": 6,
+    "field": 8,
+    "crop_name": "maize",
+    "variety": "maize 3356",
+    "season": "Kharif",
+    "sowing_date": "2026-10-01",
+    "status": "Sown",
+    "created_at": "2026-10-29T18:24:47.783Z",
+    "updated_at": "2026-10-29T18:24:47.783Z"
+  }
+},
+{
+  "model": "api.crop",
+  "pk": 8,
+  "fields": {
+    "farmer": 6,
+    "field": 8,
+    "crop_name": "sugercane",
+    "variety": "js 335",
+    "season": "Rabi",
+    "sowing_date": "2026-10-01",
+    "status": "Sown",
+    "created_at": "2026-10-30T05:41:50.318Z",
+    "updated_at": "2026-10-30T05:41:50.318Z"
+  }
+},
+{
+  "model": "api.expense",
+  "pk": 1,
+  "fields": {
+    "crop": 1,
+    "expense_category": "Seeds",
+    "description": "Sugarcane sets Co 86032",
+    "amount": "22000.00",
+    "expense_date": "2026-02-01",
+    "created_at": "2026-10-29T17:52:01.232Z"
+  }
+},
+{
+  "model": "api.expense",
+  "pk": 2,
+  "fields": {
+    "crop": 1,
+    "expense_category": "Labour",
+    "description": "Planting & ridge formation labor",
+    "amount": "15000.00",
+    "expense_date": "2026-02-06",
+    "created_at": "2026-10-29T17:52:01.246Z"
+  }
+},
+{
+  "model": "api.expense",
+  "pk": 3,
+  "fields": {
+    "crop": 1,
+    "expense_category": "Fertilizers",
+    "description": "Basal dose DAP & Potash",
+    "amount": "18500.00",
+    "expense_date": "2026-03-03",
+    "created_at": "2026-10-29T17:52:01.258Z"
+  }
+},
+{
+  "model": "api.expense",
+  "pk": 4,
+  "fields": {
+    "crop": 1,
+    "expense_category": "Irrigation",
+    "description": "Drip system maintenance & power",
+    "amount": "8000.00",
+    "expense_date": "2026-06-01",
+    "created_at": "2026-10-29T17:52:01.269Z"
+  }
+},
+{
+  "model": "api.expense",
+  "pk": 5,
+  "fields": {
+    "crop": 1,
+    "expense_category": "Fertilizers",
+    "description": "Urea & Micronutrient spray",
+    "amount": "12000.00",
+    "expense_date": "2026-07-31",
+    "created_at": "2026-10-29T17:52:01.278Z"
+  }
+},
+{
+  "model": "api.expense",
+  "pk": 6,
+  "fields": {
+    "crop": 1,
+    "expense_category": "Labour",
+    "description": "Inter-cultivation and weeding",
+    "amount": "9500.00",
+    "expense_date": "2026-08-30",
+    "created_at": "2026-10-29T17:52:01.289Z"
+  }
+},
+{
+  "model": "api.expense",
+  "pk": 7,
+  "fields": {
+    "crop": 2,
+    "expense_category": "Seeds",
+    "description": "Certified JS 335 seed bags",
+    "amount": "6200.00",
+    "expense_date": "2026-07-06",
+    "created_at": "2026-10-29T17:52:01.341Z"
+  }
+},
+{
+  "model": "api.expense",
+  "pk": 8,
+  "fields": {
+    "crop": 2,
+    "expense_category": "Machinery",
+    "description": "Tractor rotavator & sowing",
+    "amount": "7500.00",
+    "expense_date": "2026-07-09",
+    "created_at": "2026-10-29T17:52:01.350Z"
+  }
+},
+{
+  "model": "api.expense",
+  "pk": 9,
+  "fields": {
+    "crop": 2,
+    "expense_category": "Fertilizers",
+    "description": "Single Super Phosphate & Zinc",
+    "amount": "5800.00",
+    "expense_date": "2026-07-21",
+    "created_at": "2026-10-29T17:52:01.362Z"
+  }
+},
+{
+  "model": "api.expense",
+  "pk": 10,
+  "fields": {
+    "crop": 2,
+    "expense_category": "Pesticides",
+    "description": "Chlorantraniliprole insect spray",
+    "amount": "4200.00",
+    "expense_date": "2026-08-20",
+    "created_at": "2026-10-29T17:52:01.370Z"
+  }
+},
+{
+  "model": "api.expense",
+  "pk": 11,
+  "fields": {
+    "crop": 2,
+    "expense_category": "Labour",
+    "description": "Harvesting & threshing charges",
+    "amount": "8500.00",
+    "expense_date": "2026-10-09",
+    "created_at": "2026-10-29T17:52:01.381Z"
+  }
+},
+{
+  "model": "api.expense",
+  "pk": 12,
+  "fields": {
+    "crop": 2,
+    "expense_category": "Transportation",
+    "description": "Transport to APMC market",
+    "amount": "3000.00",
+    "expense_date": "2026-10-19",
+    "created_at": "2026-10-29T17:52:01.393Z"
+  }
+},
+{
+  "model": "api.expense",
+  "pk": 13,
+  "fields": {
+    "crop": 3,
+    "expense_category": "Seeds",
+    "description": "GW 496 wheat seeds",
+    "amount": "4500.00",
+    "expense_date": "2026-07-31",
+    "created_at": "2026-10-29T17:52:01.829Z"
+  }
+},
+{
+  "model": "api.expense",
+  "pk": 14,
+  "fields": {
+    "crop": 3,
+    "expense_category": "Machinery",
+    "description": "Ploughing & sowing tractor rent",
+    "amount": "6000.00",
+    "expense_date": "2026-08-02",
+    "created_at": "2026-10-29T17:52:01.838Z"
+  }
+},
+{
+  "model": "api.expense",
+  "pk": 15,
+  "fields": {
+    "crop": 3,
+    "expense_category": "Fertilizers",
+    "description": "NPK 10:26:26 & Urea",
+    "amount": "8400.00",
+    "expense_date": "2026-08-20",
+    "created_at": "2026-10-29T17:52:01.848Z"
+  }
+},
+{
+  "model": "api.expense",
+  "pk": 16,
+  "fields": {
+    "crop": 3,
+    "expense_category": "Irrigation",
+    "description": "Canal rotational water charges",
+    "amount": "3200.00",
+    "expense_date": "2026-09-19",
+    "created_at": "2026-10-29T17:52:01.857Z"
+  }
+},
+{
+  "model": "api.expense",
+  "pk": 17,
+  "fields": {
+    "crop": 4,
+    "expense_category": "Seeds",
+    "description": "Hybrid Maize Pioneer",
+    "amount": "4800.00",
+    "expense_date": "2026-06-26",
+    "created_at": "2026-10-29T17:52:01.906Z"
+  }
+},
+{
+  "model": "api.expense",
+  "pk": 18,
+  "fields": {
+    "crop": 4,
+    "expense_category": "Fertilizers",
+    "description": "Complex fertilizers",
+    "amount": "7200.00",
+    "expense_date": "2026-07-16",
+    "created_at": "2026-10-29T17:52:01.915Z"
+  }
+},
+{
+  "model": "api.expense",
+  "pk": 19,
+  "fields": {
+    "crop": 4,
+    "expense_category": "Labour",
+    "description": "Weeding & earthing up",
+    "amount": "5000.00",
+    "expense_date": "2026-08-10",
+    "created_at": "2026-10-29T17:52:01.924Z"
+  }
+},
+{
+  "model": "api.expense",
+  "pk": 20,
+  "fields": {
+    "crop": 4,
+    "expense_category": "Labour",
+    "description": "Cob plucking & threshing",
+    "amount": "6500.00",
+    "expense_date": "2026-10-04",
+    "created_at": "2026-10-29T17:52:01.932Z"
+  }
+},
+{
+  "model": "api.expense",
+  "pk": 21,
+  "fields": {
+    "crop": 5,
+    "expense_category": "Seeds",
+    "description": "Nursery seedling purchase",
+    "amount": "12000.00",
+    "expense_date": "2026-08-25",
+    "created_at": "2026-10-29T17:52:02.242Z"
+  }
+},
+{
+  "model": "api.expense",
+  "pk": 22,
+  "fields": {
+    "crop": 5,
+    "expense_category": "Labour",
+    "description": "Transplanting seedling workforce",
+    "amount": "16000.00",
+    "expense_date": "2026-08-30",
+    "created_at": "2026-10-29T17:52:02.250Z"
+  }
+},
+{
+  "model": "api.expense",
+  "pk": 23,
+  "fields": {
+    "crop": 5,
+    "expense_category": "Fertilizers",
+    "description": "Sulphur, Potash & 19:19:19",
+    "amount": "11500.00",
+    "expense_date": "2026-09-14",
+    "created_at": "2026-10-29T17:52:02.258Z"
+  }
+},
+{
+  "model": "api.expense",
+  "pk": 24,
+  "fields": {
+    "crop": 5,
+    "expense_category": "Pesticides",
+    "description": "Fungicide for purple blotch",
+    "amount": "4800.00",
+    "expense_date": "2026-09-29",
+    "created_at": "2026-10-29T17:52:02.267Z"
+  }
+},
+{
+  "model": "api.expense",
+  "pk": 25,
+  "fields": {
+    "crop": 6,
+    "expense_category": "Seeds",
+    "description": "Bt Cotton seed packets",
+    "amount": "7800.00",
+    "expense_date": "2026-05-27",
+    "created_at": "2026-10-29T17:52:02.620Z"
+  }
+},
+{
+  "model": "api.expense",
+  "pk": 26,
+  "fields": {
+    "crop": 6,
+    "expense_category": "Machinery",
+    "description": "Land preparation & ridging",
+    "amount": "9000.00",
+    "expense_date": "2026-06-01",
+    "created_at": "2026-10-29T17:52:02.629Z"
+  }
+},
+{
+  "model": "api.expense",
+  "pk": 27,
+  "fields": {
+    "crop": 6,
+    "expense_category": "Fertilizers",
+    "description": "NPK & Zinc chelate",
+    "amount": "14500.00",
+    "expense_date": "2026-07-01",
+    "created_at": "2026-10-29T17:52:02.638Z"
+  }
+},
+{
+  "model": "api.expense",
+  "pk": 28,
+  "fields": {
+    "crop": 6,
+    "expense_category": "Pesticides",
+    "description": "Pink bollworm spray rounds",
+    "amount": "8900.00",
+    "expense_date": "2026-08-10",
+    "created_at": "2026-10-29T17:52:02.647Z"
+  }
+},
+{
+  "model": "api.expense",
+  "pk": 29,
+  "fields": {
+    "crop": 6,
+    "expense_category": "Labour",
+    "description": "Cotton picking round 1 & 2",
+    "amount": "16000.00",
+    "expense_date": "2026-09-24",
+    "created_at": "2026-10-29T17:52:02.656Z"
+  }
+},
+{
+  "model": "api.expense",
+  "pk": 30,
+  "fields": {
+    "crop": 6,
+    "expense_category": "Transportation",
+    "description": "APMC Mandi freight",
+    "amount": "4500.00",
+    "expense_date": "2026-10-14",
+    "created_at": "2026-10-29T17:52:02.666Z"
+  }
+},
+{
+  "model": "api.expense",
+  "pk": 31,
+  "fields": {
+    "crop": 7,
+    "expense_category": "Seeds",
+    "description": "seeds",
+    "amount": "2000.00",
+    "expense_date": "2026-10-29",
+    "created_at": "2026-10-29T18:25:07.805Z"
+  }
+},
+{
+  "model": "api.expense",
+  "pk": 32,
+  "fields": {
+    "crop": 7,
+    "expense_category": "Labour",
+    "description": "labour work",
+    "amount": "500.00",
+    "expense_date": "2026-10-30",
+    "created_at": "2026-10-30T09:44:38.861Z"
+  }
+},
+{
+  "model": "api.harvest",
+  "pk": 1,
+  "fields": {
+    "crop": 2,
+    "harvest_date": "2026-10-14",
+    "quantity_harvested": "48.50",
+    "unit": "Quintals",
+    "created_at": "2026-10-29T17:52:01.405Z"
+  }
+},
+{
+  "model": "api.harvest",
+  "pk": 2,
+  "fields": {
+    "crop": 4,
+    "harvest_date": "2026-10-09",
+    "quantity_harvested": "62.00",
+    "unit": "Quintals",
+    "created_at": "2026-10-29T17:52:01.938Z"
+  }
+},
+{
+  "model": "api.harvest",
+  "pk": 3,
+  "fields": {
+    "crop": 6,
+    "harvest_date": "2026-10-04",
+    "quantity_harvested": "36.00",
+    "unit": "Quintals",
+    "created_at": "2026-10-29T17:52:02.672Z"
+  }
+},
+{
+  "model": "api.harvest",
+  "pk": 4,
+  "fields": {
+    "crop": 7,
+    "harvest_date": "2026-10-29",
+    "quantity_harvested": "50.00",
+    "unit": "Quintals",
+    "created_at": "2026-10-29T18:25:22.736Z"
+  }
+},
+{
+  "model": "api.sale",
+  "pk": 1,
+  "fields": {
+    "harvest": 1,
+    "quantity_sold": "48.50",
+    "selling_price": "4900.00",
+    "total_amount": "237650.00",
+    "sale_date": "2026-10-19",
+    "buyer_name": "Kolhapur Shetkari Mandi",
+    "created_at": "2026-10-29T17:52:01.419Z"
+  }
+},
+{
+  "model": "api.sale",
+  "pk": 2,
+  "fields": {
+    "harvest": 2,
+    "quantity_sold": "60.00",
+    "selling_price": "2250.00",
+    "total_amount": "135000.00",
+    "sale_date": "2026-10-14",
+    "buyer_name": "Pune Feed Mill Corp",
+    "created_at": "2026-10-29T17:52:01.944Z"
+  }
+},
+{
+  "model": "api.sale",
+  "pk": 3,
+  "fields": {
+    "harvest": 3,
+    "quantity_sold": "36.00",
+    "selling_price": "7200.00",
+    "total_amount": "259200.00",
+    "sale_date": "2026-10-11",
+    "buyer_name": "Sangli Cotton Ginning Mill",
+    "created_at": "2026-10-29T17:52:02.681Z"
+  }
+},
+{
+  "model": "api.sale",
+  "pk": 4,
+  "fields": {
+    "harvest": 4,
+    "quantity_sold": "50.00",
+    "selling_price": "30.00",
+    "total_amount": "1500.00",
+    "sale_date": "2026-10-29",
+    "buyer_name": "sangli",
+    "created_at": "2026-10-29T18:25:42.952Z"
+  }
+},
+{
+  "model": "api.sale",
+  "pk": 5,
+  "fields": {
+    "harvest": 4,
+    "quantity_sold": "70.00",
+    "selling_price": "28.00",
+    "total_amount": "1960.00",
+    "sale_date": "2026-10-30",
+    "buyer_name": "sangli",
+    "created_at": "2026-10-30T09:45:35.201Z"
+  }
+},
+{
+  "model": "api.financialanalysis",
+  "pk": 1,
+  "fields": {
+    "crop": 1,
+    "total_cost": "85000.00",
+    "total_revenue": "0.00",
+    "profit_loss": "-85000.00",
+    "cost_per_acre": "11333.33",
+    "profit_per_acre": "-11333.33",
+    "calculated_at": "2026-10-30T06:40:23.792Z"
+  }
+},
+{
+  "model": "api.financialanalysis",
+  "pk": 2,
+  "fields": {
+    "crop": 2,
+    "total_cost": "35200.00",
+    "total_revenue": "237650.00",
+    "profit_loss": "202450.00",
+    "cost_per_acre": "7040.00",
+    "profit_per_acre": "40490.00",
+    "calculated_at": "2026-10-30T06:40:23.753Z"
+  }
+},
+{
+  "model": "api.financialanalysis",
+  "pk": 3,
+  "fields": {
+    "crop": 3,
+    "total_cost": "22100.00",
+    "total_revenue": "0.00",
+    "profit_loss": "-22100.00",
+    "cost_per_acre": "4420.00",
+    "profit_per_acre": "-4420.00",
+    "calculated_at": "2026-10-30T06:40:23.742Z"
+  }
+},
+{
+  "model": "api.financialanalysis",
+  "pk": 4,
+  "fields": {
+    "crop": 4,
+    "total_cost": "23500.00",
+    "total_revenue": "135000.00",
+    "profit_loss": "111500.00",
+    "cost_per_acre": "7833.33",
+    "profit_per_acre": "37166.67",
+    "calculated_at": "2026-10-30T06:40:23.766Z"
+  }
+},
+{
+  "model": "api.financialanalysis",
+  "pk": 5,
+  "fields": {
+    "crop": 5,
+    "total_cost": "44300.00",
+    "total_revenue": "0.00",
+    "profit_loss": "-44300.00",
+    "cost_per_acre": "7383.33",
+    "profit_per_acre": "-7383.33",
+    "calculated_at": "2026-10-30T06:40:23.732Z"
+  }
+},
+{
+  "model": "api.financialanalysis",
+  "pk": 6,
+  "fields": {
+    "crop": 6,
+    "total_cost": "60700.00",
+    "total_revenue": "259200.00",
+    "profit_loss": "198500.00",
+    "cost_per_acre": "10116.67",
+    "profit_per_acre": "33083.33",
+    "calculated_at": "2026-10-30T06:40:23.778Z"
+  }
+},
+{
+  "model": "api.financialanalysis",
+  "pk": 7,
+  "fields": {
+    "crop": 7,
+    "total_cost": "2000.00",
+    "total_revenue": "1500.00",
+    "profit_loss": "-500.00",
+    "cost_per_acre": "1000.00",
+    "profit_per_acre": "-250.00",
+    "calculated_at": "2026-10-30T06:40:23.695Z"
+  }
+},
+{
+  "model": "api.financialanalysis",
+  "pk": 8,
+  "fields": {
+    "crop": 8,
+    "total_cost": "0.00",
+    "total_revenue": "0.00",
+    "profit_loss": "0.00",
+    "cost_per_acre": "0.00",
+    "profit_per_acre": "0.00",
+    "calculated_at": "2026-10-30T06:40:23.719Z"
+  }
+},
+{
+  "model": "api.croprecommendation",
+  "pk": 1,
+  "fields": {
+    "farmer": 2,
+    "soil_type": "Black",
+    "season": "Annual",
+    "weather_conditions": "Moderate 750-900mm rainfall, avg temp 27°C",
+    "irrigation_type": "Drip / Furrow",
+    "recommended_crop": "Sugarcane",
+    "recommendation_date": "2026-10-29T17:52:01.312Z"
+  }
+},
+{
+  "model": "api.croprecommendation",
+  "pk": 2,
+  "fields": {
+    "farmer": 2,
+    "soil_type": "Loamy",
+    "season": "Kharif",
+    "weather_conditions": "Moderate 750-900mm rainfall, avg temp 27°C",
+    "irrigation_type": "Drip / Furrow",
+    "recommended_crop": "Soybean",
+    "recommendation_date": "2026-10-29T17:52:01.446Z"
+  }
+},
+{
+  "model": "api.croprecommendation",
+  "pk": 3,
+  "fields": {
+    "farmer": 3,
+    "soil_type": "Alluvial",
+    "season": "Rabi",
+    "weather_conditions": "Moderate 750-900mm rainfall, avg temp 27°C",
+    "irrigation_type": "Drip / Furrow",
+    "recommended_crop": "Wheat",
+    "recommendation_date": "2026-10-29T17:52:01.876Z"
+  }
+},
+{
+  "model": "api.croprecommendation",
+  "pk": 4,
+  "fields": {
+    "farmer": 3,
+    "soil_type": "Black",
+    "season": "Kharif",
+    "weather_conditions": "Moderate 750-900mm rainfall, avg temp 27°C",
+    "irrigation_type": "Drip / Furrow",
+    "recommended_crop": "Maize",
+    "recommendation_date": "2026-10-29T17:52:01.957Z"
+  }
+},
+{
+  "model": "api.croprecommendation",
+  "pk": 5,
+  "fields": {
+    "farmer": 4,
+    "soil_type": "Red",
+    "season": "Rabi",
+    "weather_conditions": "Moderate 750-900mm rainfall, avg temp 27°C",
+    "irrigation_type": "Drip / Furrow",
+    "recommended_crop": "Onion",
+    "recommendation_date": "2026-10-29T17:52:02.285Z"
+  }
+},
+{
+  "model": "api.croprecommendation",
+  "pk": 6,
+  "fields": {
+    "farmer": 5,
+    "soil_type": "Loamy",
+    "season": "Kharif",
+    "weather_conditions": "Moderate 750-900mm rainfall, avg temp 27°C",
+    "irrigation_type": "Drip / Furrow",
+    "recommended_crop": "Cotton",
+    "recommendation_date": "2026-10-29T17:52:02.699Z"
+  }
+},
+{
+  "model": "api.croprecommendation",
+  "pk": 7,
+  "fields": {
+    "farmer": 6,
+    "soil_type": "Red",
+    "season": "Rabi",
+    "weather_conditions": "minimum",
+    "irrigation_type": "Rainfed",
+    "recommended_crop": "Wheat",
+    "recommendation_date": "2026-10-29T18:22:02.574Z"
+  }
+},
+{
+  "model": "api.croprecommendation",
+  "pk": 8,
+  "fields": {
+    "farmer": 6,
+    "soil_type": "Red",
+    "season": "Rabi",
+    "weather_conditions": "maximum",
+    "irrigation_type": "Rainfed",
+    "recommended_crop": "Wheat",
+    "recommendation_date": "2026-10-29T18:22:32.273Z"
+  }
+},
+{
+  "model": "api.croprecommendation",
+  "pk": 9,
+  "fields": {
+    "farmer": 6,
+    "soil_type": "Alluvial",
+    "season": "Rabi",
+    "weather_conditions": "maximum",
+    "irrigation_type": "Rainfed",
+    "recommended_crop": "Wheat",
+    "recommendation_date": "2026-10-29T18:22:49.523Z"
+  }
+},
+{
+  "model": "api.croprecommendation",
+  "pk": 10,
+  "fields": {
+    "farmer": 6,
+    "soil_type": "Clayey",
+    "season": "Zaid",
+    "weather_conditions": "maximum",
+    "irrigation_type": "Rainfed",
+    "recommended_crop": "Cotton",
+    "recommendation_date": "2026-10-29T18:23:06.840Z"
+  }
+},
+{
+  "model": "api.croprecommendation",
+  "pk": 11,
+  "fields": {
+    "farmer": 6,
+    "soil_type": "Sandy",
+    "season": "Zaid",
+    "weather_conditions": "maximum",
+    "irrigation_type": "Rainfed",
+    "recommended_crop": "Apple",
+    "recommendation_date": "2026-10-29T18:23:43.282Z"
+  }
+},
+{
+  "model": "api.croprecommendation",
+  "pk": 12,
+  "fields": {
+    "farmer": 6,
+    "soil_type": "Sandy",
+    "season": "Kharif",
+    "weather_conditions": "jhgf",
+    "irrigation_type": "Rainfed",
+    "recommended_crop": "Maize",
+    "recommendation_date": "2026-10-29T18:26:32.078Z"
+  }
+},
+{
+  "model": "api.croprecommendation",
+  "pk": 13,
+  "fields": {
+    "farmer": 6,
+    "soil_type": "Alluvial",
+    "season": "Zaid",
+    "weather_conditions": "Semi-Arid Dry Sunny Climate with Low Rainfall (30°C-38°C)",
+    "irrigation_type": "Rainfed",
+    "recommended_crop": "Apple",
+    "recommendation_date": "2026-10-30T05:33:50.106Z"
+  }
+},
+{
+  "model": "api.croprecommendation",
+  "pk": 14,
+  "fields": {
+    "farmer": 6,
+    "soil_type": "Alluvial",
+    "season": "Kharif",
+    "weather_conditions": "Temperate & Cool Mountain Slopes (12°C-20°C, High Elevation)",
+    "irrigation_type": "Rainfed",
+    "recommended_crop": "Potato",
+    "recommendation_date": "2026-10-30T05:34:07.984Z"
+  }
+},
+{
+  "model": "api.croprecommendation",
+  "pk": 15,
+  "fields": {
+    "farmer": 6,
+    "soil_type": "Alluvial",
+    "season": "Rabi",
+    "weather_conditions": "Temperate & Cool Mountain Slopes (12°C-20°C, High Elevation)",
+    "irrigation_type": "Rainfed",
+    "recommended_crop": "Apple",
+    "recommendation_date": "2026-10-30T05:34:13.540Z"
+  }
+},
+{
+  "model": "api.croprecommendation",
+  "pk": 16,
+  "fields": {
+    "farmer": 6,
+    "soil_type": "Black",
+    "season": "Rabi",
+    "weather_conditions": "Optimal Monsoon (Heavy to Moderate Rainfall, 26°C-32°C)",
+    "irrigation_type": "Rainfed",
+    "recommended_crop": "Apple",
+    "recommendation_date": "2026-10-30T05:34:20.666Z"
+  }
+},
+{
+  "model": "api.croprecommendation",
+  "pk": 17,
+  "fields": {
+    "farmer": 6,
+    "soil_type": "Black",
+    "season": "Rabi",
+    "weather_conditions": "Humid Coastal Tropical Breeze (28°C-34°C, High Moisture)",
+    "irrigation_type": "Rainfed",
+    "recommended_crop": "Rice",
+    "recommendation_date": "2026-10-30T05:34:27.207Z"
+  }
+},
+{
+  "model": "api.croprecommendation",
+  "pk": 18,
+  "fields": {
+    "farmer": 6,
+    "soil_type": "Black",
+    "season": "Rabi",
+    "weather_conditions": "Cool Winter Climate with Mild Sun (15°C-22°C)",
+    "irrigation_type": "Rainfed",
+    "recommended_crop": "Chickpea",
+    "recommendation_date": "2026-10-30T05:34:33.290Z"
+  }
+},
+{
+  "model": "api.croprecommendation",
+  "pk": 19,
+  "fields": {
+    "farmer": 6,
+    "soil_type": "Loamy",
+    "season": "Kharif",
+    "weather_conditions": "Humid Coastal Tropical Breeze (28°C-34°C, High Moisture)",
+    "irrigation_type": "Rainfed",
+    "recommended_crop": "Maize",
+    "recommendation_date": "2026-10-30T10:24:33.188Z"
+  }
+},
+{
+  "model": "api.croprecommendation",
+  "pk": 20,
+  "fields": {
+    "farmer": 6,
+    "soil_type": "Alluvial",
+    "season": "Rabi",
+    "weather_conditions": "Semi-Arid Dry Sunny Climate with Low Rainfall (30°C-38°C)",
+    "irrigation_type": "Rainfed",
+    "recommended_crop": "Apple",
+    "recommendation_date": "2026-10-30T10:24:51.742Z"
+  }
+},
+{
+  "model": "api.yieldprediction",
+  "pk": 1,
+  "fields": {
+    "crop": 1,
+    "land_area": "7.50",
+    "season": "Annual",
+    "soil_type": "Black",
+    "fertilizer_use": "NPK balanced",
+    "rainfall": "780.00",
+    "predicted_yield": "35.00",
+    "prediction_date": "2026-10-29T17:52:01.324Z"
+  }
+},
+{
+  "model": "api.yieldprediction",
+  "pk": 2,
+  "fields": {
+    "crop": 2,
+    "land_area": "5.00",
+    "season": "Kharif",
+    "soil_type": "Loamy",
+    "fertilizer_use": "NPK balanced",
+    "rainfall": "780.00",
+    "predicted_yield": "45.00",
+    "prediction_date": "2026-10-29T17:52:01.475Z"
+  }
+},
+{
+  "model": "api.yieldprediction",
+  "pk": 3,
+  "fields": {
+    "crop": 3,
+    "land_area": "5.00",
+    "season": "Rabi",
+    "soil_type": "Alluvial",
+    "fertilizer_use": "NPK balanced",
+    "rainfall": "780.00",
+    "predicted_yield": "35.00",
+    "prediction_date": "2026-10-29T17:52:01.886Z"
+  }
+},
+{
+  "model": "api.yieldprediction",
+  "pk": 4,
+  "fields": {
+    "crop": 4,
+    "land_area": "3.00",
+    "season": "Kharif",
+    "soil_type": "Black",
+    "fertilizer_use": "NPK balanced",
+    "rainfall": "780.00",
+    "predicted_yield": "35.00",
+    "prediction_date": "2026-10-29T17:52:01.963Z"
+  }
+},
+{
+  "model": "api.yieldprediction",
+  "pk": 5,
+  "fields": {
+    "crop": 5,
+    "land_area": "6.00",
+    "season": "Rabi",
+    "soil_type": "Red",
+    "fertilizer_use": "NPK balanced",
+    "rainfall": "780.00",
+    "predicted_yield": "35.00",
+    "prediction_date": "2026-10-29T17:52:02.294Z"
+  }
+},
+{
+  "model": "api.yieldprediction",
+  "pk": 6,
+  "fields": {
+    "crop": 6,
+    "land_area": "6.00",
+    "season": "Kharif",
+    "soil_type": "Loamy",
+    "fertilizer_use": "NPK balanced",
+    "rainfall": "780.00",
+    "predicted_yield": "35.00",
+    "prediction_date": "2026-10-29T17:52:02.707Z"
+  }
+},
+{
+  "model": "api.yieldprediction",
+  "pk": 7,
+  "fields": {
+    "crop": 7,
+    "land_area": "2.00",
+    "season": "Kharif",
+    "soil_type": "Black",
+    "fertilizer_use": "High (Urea + DAP)",
+    "rainfall": "750.00",
+    "predicted_yield": "39.03",
+    "prediction_date": "2026-10-30T05:34:58.054Z"
+  }
+},
+{
+  "model": "api.yieldprediction",
+  "pk": 8,
+  "fields": {
+    "crop": 7,
+    "land_area": "2.00",
+    "season": "Kharif",
+    "soil_type": "Black",
+    "fertilizer_use": "High (Urea + DAP)",
+    "rainfall": "75.00",
+    "predicted_yield": "28.99",
+    "prediction_date": "2026-10-30T05:35:10.351Z"
+  }
+},
+{
+  "model": "api.yieldprediction",
+  "pk": 9,
+  "fields": {
+    "crop": 7,
+    "land_area": "2.00",
+    "season": "Kharif",
+    "soil_type": "Black",
+    "fertilizer_use": "High (Urea + DAP)",
+    "rainfall": "5000.00",
+    "predicted_yield": "45.69",
+    "prediction_date": "2026-10-30T05:35:18.699Z"
+  }
+},
+{
+  "model": "api.profitprediction",
+  "pk": 1,
+  "fields": {
+    "crop": 7,
+    "estimated_cost": "2000.00",
+    "predicted_yield": "40.00",
+    "estimated_selling_price": "2200.00",
+    "predicted_profit": "86000.00",
+    "prediction_date": "2026-10-29T18:28:05.939Z"
+  }
+},
+{
+  "model": "api.profitprediction",
+  "pk": 2,
+  "fields": {
+    "crop": 7,
+    "estimated_cost": "2000.00",
+    "predicted_yield": "39.60",
+    "estimated_selling_price": "2200.00",
+    "predicted_profit": "85120.00",
+    "prediction_date": "2026-10-29T18:28:27.694Z"
+  }
+},
+{
+  "model": "api.systemannouncement",
+  "pk": 2,
+  "fields": {
+    "title": "PM-Kisan 17th Installment DBT Disbursement Live",
+    "message": "Beneficiary farmers can check their DBT credit status through their bank accounts or visit the local CSC center with Aadhaar number.",
+    "priority": "success",
+    "is_active": true,
+    "created_at": "2026-10-29T17:52:00.856Z",
+    "created_by": 1
+  }
+}
+]

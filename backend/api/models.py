@@ -467,3 +467,37 @@ class ProfitPrediction(models.Model):
 
     def __str__(self):
         return f"Profit Pred: {self.crop.crop_name} -> Expected ₹{self.predicted_profit}"
+
+
+class SystemAnnouncement(models.Model):
+    """
+    Broadcast announcements and advisories from system administrators to all farmers.
+    """
+    PRIORITY_CHOICES = [
+        ('info', 'Information'),
+        ('warning', 'Advisory / Weather Warning'),
+        ('danger', 'Critical Alert / Pest Outbreak'),
+        ('success', 'Subsidy / Scheme Notice'),
+    ]
+
+    title = models.CharField(max_length=200)
+    message = models.TextField()
+    priority = models.CharField(max_length=20, choices=PRIORITY_CHOICES, default='info')
+    is_active = models.BooleanField(default=True, db_index=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='announcements'
+    )
+
+    class Meta:
+        db_table = 'system_announcements'
+        verbose_name = 'System Announcement'
+        verbose_name_plural = 'System Announcements'
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"[{self.priority.upper()}] {self.title}"

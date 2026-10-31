@@ -178,6 +178,17 @@ The React frontend will be accessible in your web browser at:
    - **AI Profit Prediction** : Trained Scikit-Learn `RandomForestRegressor` pipeline (`profit_prediction_model.pkl`) projecting agricultural margins from market APMC trends and input costs.
    - Dedicated offline training pipeline in `backend/ml_models/train_models.py`.
 
+9. **Phase 9: Comprehensive System Admin Operations Suite **
+   - **Administrative Authentication & Governance**: Dedicated admin auth flow (`/admin/login`) with staff/superuser token verification. Default credentials: `systemadmin` / `adminsystem123`.
+   - **Farmer Governance & Full Dossier**: Direct farmer onboarding, active/inactive status toggle, profile editing, password resets, and comprehensive individual dossiers with fields, cultivated crops, expense breakdowns, and AI history.
+   - **Crop Operations Management**: Centralized operations dashboard (`/admin/crops`) across all farmers, filtering by lifecycle status (`Sown`, `Growing`, `Harvested`, `Closed`) and season (`Kharif`, `Rabi`, `Zaid`, `Annual`), with status transitions and CSV export.
+   - **Agricultural Land Parcels (`/admin/fields`)**: Platform-wide acreage, average plot sizes, and soil classification distribution (Black, Red, Loamy, Alluvial, Clayey, Sandy).
+   - **Financials & Transactions Center (`/admin/financials`)**: Dual-tab operations center for auditing itemized cultivation expenses and market produce sales trades.
+   - **APMC Mandi Board Management (`/admin/mandi`)**: Live commodity benchmark rates board across Maharashtra APMC mandis, with real-time editing and addition of commodity rates.
+   - **AI & ML Diagnostics (`/admin/ai-advisory`)**: Model serialization file checks (`.pkl` file sizes, algorithms, statuses), 1-click model retraining trigger, and logs of all farmer AI consultations.
+   - **Broadcast Advisories & Announcements (`/admin/announcements`)**: System announcements for weather warnings, pest outbreak alerts, and government subsidies, surfaced directly on the farmer dashboard.
+   - **System Health & Maintenance Diagnostics (`/admin/system`)**: Database ping latency, table record statistics, server environment telemetry, and 1-click dynamic recalculation of all crop financials.
+
 ---
 
 ## Machine Learning Pipeline & Training
